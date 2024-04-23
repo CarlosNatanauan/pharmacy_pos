@@ -1,86 +1,226 @@
 import 'package:flutter/material.dart';
-import 'package:side_navigation/side_navigation.dart';
-import 'dashboard.dart'; // Import dashboard content
-import 'products.dart'; // Import products content
+import 'package:pharmacy_pos/management_screen/products.dart';
+import 'package:sidebarx/sidebarx.dart';
 
-class MainManagementScreen extends StatefulWidget {
-  const MainManagementScreen({Key? key}) : super(key: key);
+import 'dashboard.dart';
 
-  @override
-  _MainManagementScreenState createState() => _MainManagementScreenState();
+void main() {
+  runApp(MainManagementScreen());
 }
 
-class _MainManagementScreenState extends State<MainManagementScreen> {
-  // Variable to track selected content
-  int selectedIndex = 0;
+class MainManagementScreen extends StatelessWidget {
+  MainManagementScreen({Key? key}) : super(key: key);
 
-  // Views to display
-  List<Widget> views = [
-    Dashboard(),
-    Products(),
-  ];
+  final _controller = SidebarXController(selectedIndex: 0, extended: true);
+  final _key = GlobalKey<ScaffoldState>();
+
+  // Mapping between sidebar titles and corresponding screen widgets
+  final Map<String, Widget> _screens = {
+    'Dashboard': Dashboard(),
+    'Products': Products(),
+  };
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          // Side Navigation Bar
-          SideNavigationBar(
-            header: SideNavigationBarHeader(
-              image: Image.asset(
-                'assets/images/img.png', // Replace this with your image path
-                width: 50, // Set the width to match the desired size
-                height: 50, // Set the height to match the desired size
-              ),
-              title: Text('Title widget'),
-              subtitle: Text('Subtitle widget'),
-            ),
-
-            footer: SideNavigationBarFooter(
-              label: Text('© Nucleio Information Services'),
-            ),
-            selectedIndex: selectedIndex,
-            items: const [
-              SideNavigationBarItem(
-                icon: Icons.dashboard,
-                label: 'Dashboard',
-              ),
-              SideNavigationBarItem(
-                icon: Icons.shopping_cart,
-                label: 'Products',
-              ),
-            ],
-            onTap: (index) {
-              // Update content to display 'Dashboard' or 'Products'
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-            toggler: SideBarToggler(
-              expandIcon: Icons.arrow_forward_ios_rounded,
-              shrinkIcon: Icons.arrow_back_ios_rounded,
-              onToggle: () {
-                setState(() {
-                  // Toggle the menu
-                  // You can add custom logic here
-                });
-              },
-            ),
+    return MaterialApp(
+      //title: 'SidebarX Example',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: primaryColor,
+        canvasColor: canvasColor,
+        scaffoldBackgroundColor: scaffoldBackgroundColor,
+        textTheme: const TextTheme(
+          headlineSmall: TextStyle(
+            color: Colors.white,
+            fontSize: 46,
+            fontWeight: FontWeight.w800,
           ),
-
-          // Expanded Container for Content
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.white, // Background color to identify overflow
-              child: Center(
-                child: views[selectedIndex], // Display selected content
+        ),
+      ),
+      home: Builder(
+        builder: (context) {
+          final isSmallScreen = MediaQuery.of(context).size.width < 600;
+          return Scaffold(
+            key: _key,
+            appBar: isSmallScreen
+                ? AppBar(
+              backgroundColor: canvasColor,
+              title: Text(_getTitleByIndex(_controller.selectedIndex)),
+              leading: IconButton(
+                onPressed: () {
+                  _key.currentState?.openDrawer();
+                },
+                icon: const Icon(Icons.menu),
               ),
+            )
+                : null,
+            drawer: ExampleSidebarX(controller: _controller),
+            body: Row(
+              children: [
+                if (!isSmallScreen) ExampleSidebarX(controller: _controller),
+                Expanded(
+                  child: Center(
+                    child: _ScreensExample(
+                      controller: _controller,
+                      screens: _screens,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 }
+
+class ExampleSidebarX extends StatelessWidget {
+  const ExampleSidebarX({
+    Key? key,
+    required SidebarXController controller,
+  }) : _controller = controller,
+        super(key: key);
+
+  final SidebarXController _controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return SidebarX(
+      controller: _controller,
+      theme: SidebarXTheme(
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: canvasColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        hoverColor: scaffoldBackgroundColor,
+        textStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
+        selectedTextStyle: const TextStyle(color: Colors.white),
+        hoverTextStyle: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+        itemTextPadding: const EdgeInsets.only(left: 30),
+        selectedItemTextPadding: const EdgeInsets.only(left: 30),
+        itemDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: canvasColor),
+        ),
+        selectedItemDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: actionColor.withOpacity(0.37),
+          ),
+          gradient: const LinearGradient(
+            colors: [accentCanvasColor, canvasColor],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.28),
+              blurRadius: 30,
+            )
+          ],
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.white.withOpacity(0.7),
+          size: 20,
+        ),
+        selectedIconTheme: const IconThemeData(
+          color: Colors.white,
+          size: 20,
+        ),
+      ),
+      extendedTheme: const SidebarXTheme(
+        width: 200,
+        decoration: BoxDecoration(
+          color: canvasColor,
+        ),
+      ),
+      footerDivider: divider,
+      headerBuilder: (context, extended) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 100,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16),
+                child: Image.asset('assets/images/img.png'),
+              ),
+            ),
+            if (extended) // Display text only when sidebar is maximized
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 8),
+                child: Text(
+                  'Nucleio Pharmacy',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+          ],
+        );
+      },
+
+      items: [
+        const SidebarXItem(
+          icon: Icons.dashboard,
+          label: 'Dashboard',
+        ),
+        const SidebarXItem(
+          icon: Icons.shopping_cart,
+          label: 'Products',
+        ),
+      ],
+    );
+  }
+}
+
+class _ScreensExample extends StatelessWidget {
+  const _ScreensExample({
+    Key? key,
+    required this.controller,
+    required this.screens,
+  }) : super(key: key);
+
+  final SidebarXController controller;
+  final Map<String, Widget> screens;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        final pageTitle = _getTitleByIndex(controller.selectedIndex);
+        final screenWidget = screens[pageTitle];
+        return Center(
+          child: screenWidget != null
+              ? screenWidget
+              : Text(
+            'Not found page',
+            style: theme.textTheme.headlineSmall,
+          ),
+        );
+      },
+    );
+  }
+}
+
+String _getTitleByIndex(int index) {
+  switch (index) {
+    case 0:
+      return 'Dashboard';
+    case 1:
+      return 'Products';
+    default:
+      return 'Not found page';
+  }
+}
+
+const primaryColor = Color(0xFF685BFF);
+const canvasColor = Color(0xFF2E2E48);
+const scaffoldBackgroundColor = Color(0xFF464667);
+const accentCanvasColor = Color(0xFF3E3E61);
+const white = Colors.white;
+final actionColor = const Color(0xFF5F5FA7).withOpacity(0.6);
+final divider = Divider(color: white.withOpacity(0.3), height: 1);
