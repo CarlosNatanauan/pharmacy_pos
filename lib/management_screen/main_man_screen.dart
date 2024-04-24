@@ -93,6 +93,9 @@ class MainManagementScreen extends StatelessWidget {
   }
 }
 
+
+
+
 class ExampleSidebarX extends StatelessWidget {
   const ExampleSidebarX({
     Key? key,
@@ -154,6 +157,8 @@ class ExampleSidebarX extends StatelessWidget {
         decoration: BoxDecoration(
           color: canvasColor,
         ),
+        // Adjust the itemMargin to reduce the spacing between items
+        //itemPadd: EdgeInsets.symmetric(vertical: .0),
       ),
       footerDivider: divider,
       headerBuilder: (context, extended) {
@@ -229,6 +234,13 @@ class ExampleSidebarX extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
 
 class _ScreensExample extends StatelessWidget {
   const _ScreensExample({
