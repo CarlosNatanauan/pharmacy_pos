@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pharmacy_pos/management_screen/products.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/dashboard.dart';
+// Import the new screens
+import 'package:pharmacy_pos/management_screen/sub_screens/inventory.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/sales.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/receiving.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/medicine_category.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/medicine_types.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/medicine_list.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/expired_list.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/customer_list.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/suplier_list.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
-
-import 'dashboard.dart';
 
 void main() {
   runApp(MainManagementScreen());
@@ -17,7 +26,16 @@ class MainManagementScreen extends StatelessWidget {
   // Mapping between sidebar titles and corresponding screen widgets
   final Map<String, Widget> _screens = {
     'Dashboard': Dashboard(),
-    'Products': Products(),
+    'Inventory': Inventory(),
+    'Sales': Sales(),
+    'Receiving': Receiving(),
+    'Medicine Category': MedicineCategory(),
+    'Medicine Types': MedicineTypes(),
+    'Medicine List': MedicineList(),
+    'Expired List': ExpiredList(),
+    'Supplier List': SupplierList(),
+    'Customer List': CustomerList(),
+    'Users': Users(),
   };
 
   @override
@@ -161,6 +179,7 @@ class ExampleSidebarX extends StatelessWidget {
         );
       },
 
+      // Update the sidebar items
       items: [
         const SidebarXItem(
           icon: Icons.dashboard,
@@ -168,7 +187,43 @@ class ExampleSidebarX extends StatelessWidget {
         ),
         const SidebarXItem(
           icon: Icons.shopping_cart,
-          label: 'Products',
+          label: 'Inventory',
+        ),
+        const SidebarXItem(
+          icon: Icons.attach_money,
+          label: 'Sales',
+        ),
+        const SidebarXItem(
+          icon: Icons.receipt,
+          label: 'Receiving',
+        ),
+        const SidebarXItem(
+          icon: Icons.category,
+          label: 'Medicine Category',
+        ),
+        const SidebarXItem(
+          icon: Icons.extension,
+          label: 'Medicine Types',
+        ),
+        const SidebarXItem(
+          icon: Icons.list_alt,
+          label: 'Medicine List',
+        ),
+        const SidebarXItem(
+          icon: Icons.timer,
+          label: 'Expired List',
+        ),
+        const SidebarXItem(
+          icon: Icons.local_shipping,
+          label: 'Supplier List',
+        ),
+        const SidebarXItem(
+          icon: Icons.people,
+          label: 'Customer List',
+        ),
+        const SidebarXItem(
+          icon: Icons.person,
+          label: 'Users',
         ),
       ],
     );
@@ -211,7 +266,25 @@ String _getTitleByIndex(int index) {
     case 0:
       return 'Dashboard';
     case 1:
-      return 'Products';
+      return 'Inventory';
+    case 2:
+      return 'Sales';
+    case 3:
+      return 'Receiving';
+    case 4:
+      return 'Medicine Category';
+    case 5:
+      return 'Medicine Types';
+    case 6:
+      return 'Medicine List';
+    case 7:
+      return 'Expired List';
+    case 8:
+      return 'Supplier List';
+    case 9:
+      return 'Customer List';
+    case 10:
+      return 'Users';
     default:
       return 'Not found page';
   }
