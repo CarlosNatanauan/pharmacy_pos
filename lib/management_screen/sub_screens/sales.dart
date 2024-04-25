@@ -6,7 +6,7 @@ class Sales extends StatelessWidget {
     return Center(
       child: Text(
         'Sales Screen',
-        style: TextStyle(fontSize: 24),
+        style: TextStyle(fontSize: 24, color: Colors.white),
       ),
     );
   }

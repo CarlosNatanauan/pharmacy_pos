@@ -6,7 +6,7 @@ class Receiving extends StatelessWidget {
     return Center(
       child: Text(
         'Receiving Screen',
-        style: TextStyle(fontSize: 24),
+        style: TextStyle(fontSize: 24, color: Colors.white),
       ),
     );
   }

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/dashboard.dart';
-// Import the new screens
 import 'package:pharmacy_pos/management_screen/sub_screens/inventory.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/sales.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/receiving.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/medicine_category.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/medicine_types.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/medicine_list.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/expired_list.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/medicine.dart'; // Import the new "Medicine" screen
 import 'package:pharmacy_pos/management_screen/sub_screens/customer_list.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/suplier_list.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/users.dart';
@@ -29,19 +25,15 @@ class MainManagementScreen extends StatelessWidget {
     'Inventory': Inventory(),
     'Sales': Sales(),
     'Receiving': Receiving(),
-    'Medicine Category': MedicineCategory(),
-    'Medicine Types': MedicineTypes(),
-    'Medicine List': MedicineList(),
-    'Expired List': ExpiredList(),
-    'Supplier List': SupplierList(),
+    'Medicine': Medicine(), // Change to the new "Medicine" screen
     'Customer List': CustomerList(),
+    'Supplier List': SupplierList(),
     'Users': Users(),
   };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //title: 'SidebarX Example',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: primaryColor,
@@ -92,9 +84,6 @@ class MainManagementScreen extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class ExampleSidebarX extends StatelessWidget {
   const ExampleSidebarX({
@@ -157,8 +146,6 @@ class ExampleSidebarX extends StatelessWidget {
         decoration: BoxDecoration(
           color: canvasColor,
         ),
-        // Adjust the itemMargin to reduce the spacing between items
-        //itemPadd: EdgeInsets.symmetric(vertical: .0),
       ),
       footerDivider: divider,
       headerBuilder: (context, extended) {
@@ -183,8 +170,6 @@ class ExampleSidebarX extends StatelessWidget {
           ],
         );
       },
-
-      // Update the sidebar items
       items: [
         const SidebarXItem(
           icon: Icons.dashboard,
@@ -203,28 +188,16 @@ class ExampleSidebarX extends StatelessWidget {
           label: 'Receiving',
         ),
         const SidebarXItem(
-          icon: Icons.category,
-          label: 'Medicine Category',
-        ),
-        const SidebarXItem(
-          icon: Icons.extension,
-          label: 'Medicine Types',
-        ),
-        const SidebarXItem(
-          icon: Icons.list_alt,
-          label: 'Medicine List',
-        ),
-        const SidebarXItem(
-          icon: Icons.timer,
-          label: 'Expired List',
-        ),
-        const SidebarXItem(
-          icon: Icons.local_shipping,
-          label: 'Supplier List',
+          icon: Icons.local_hospital, // Change icon to something appropriate for Medicine
+          label: 'Medicine',
         ),
         const SidebarXItem(
           icon: Icons.people,
           label: 'Customer List',
+        ),
+        const SidebarXItem(
+          icon: Icons.local_shipping,
+          label: 'Supplier List',
         ),
         const SidebarXItem(
           icon: Icons.person,
@@ -234,13 +207,6 @@ class ExampleSidebarX extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
 
 class _ScreensExample extends StatelessWidget {
   const _ScreensExample({
@@ -284,18 +250,12 @@ String _getTitleByIndex(int index) {
     case 3:
       return 'Receiving';
     case 4:
-      return 'Medicine Category';
+      return 'Medicine';
     case 5:
-      return 'Medicine Types';
-    case 6:
-      return 'Medicine List';
-    case 7:
-      return 'Expired List';
-    case 8:
-      return 'Supplier List';
-    case 9:
       return 'Customer List';
-    case 10:
+    case 6:
+      return 'Supplier List';
+    case 7:
       return 'Users';
     default:
       return 'Not found page';
