@@ -6,7 +6,7 @@ class SupplierList extends StatelessWidget {
     return Center(
       child: Text(
         'Supplier List Screen',
-        style: TextStyle(fontSize: 24),
+        style: TextStyle(fontSize: 24, color: Colors.white),
       ),
     );
   }
