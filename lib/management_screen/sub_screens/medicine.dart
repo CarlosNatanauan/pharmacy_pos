@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'medicine_sub_buttons/expired_list.dart';
+import 'medicine_sub_buttons/medicine_category.dart';
+import 'medicine_sub_buttons/medicine_list.dart';
+import 'medicine_sub_buttons/medicine_types.dart';
+
+
+
 class Medicine extends StatefulWidget {
   @override
   _MedicineState createState() => _MedicineState();
@@ -7,7 +14,7 @@ class Medicine extends StatefulWidget {
 
 class _MedicineState extends State<Medicine> {
   int _selectedIndex = 0;
-  final List<String> _tabTitles = ['Category', 'Types', 'List', 'Expired'];
+  final List<String> _tabTitles = ['Medicine List', 'Medicine Category', 'Medicine Types',  'Expired List'];
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +65,7 @@ class _MedicineState extends State<Medicine> {
           SizedBox(height: 20),
           Expanded(
             child: Center(
-              child: Text(
-                _tabTitles[_selectedIndex],
-                style: TextStyle(fontSize: 18, color: Colors.black),
-              ),
+              child: _buildSelectedScreen(_selectedIndex),
             ),
           ),
         ],
@@ -77,6 +81,21 @@ class _MedicineState extends State<Medicine> {
         style: TextStyle(fontSize: 16),
       ),
     );
+  }
+
+  Widget _buildSelectedScreen(int index) {
+    switch (index) {
+      case 0:
+        return MedicineList();
+      case 1:
+        return MedicineCategory();
+      case 2:
+        return MedicineTypes();
+      case 3:
+        return ExpiredList();
+      default:
+        return Container();
+    }
   }
 }
 
