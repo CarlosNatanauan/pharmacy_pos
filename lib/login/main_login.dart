@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pharmacy_pos/home_selection.dart'; // Importing home_selection.dart
-
 
 import '../management_screen/main_man_screen.dart';
 import '../pos_screen/main_pos_screen.dart'; // Import MainPosScreen file

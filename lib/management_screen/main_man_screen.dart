@@ -174,11 +174,11 @@ class ExampleSidebarX extends StatelessWidget {
           label: 'Dashboard',
         ),
         const SidebarXItem(
-          icon: Icons.business,
+          icon: Icons.local_hospital_rounded,
           label: 'Medicine',
         ),
         const SidebarXItem(
-          icon: Icons.local_hospital,
+          icon: Icons.business,
           label: 'Operations',
         ),
         const SidebarXItem(
