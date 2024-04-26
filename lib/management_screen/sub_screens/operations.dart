@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'entities_sub_buttons/customer_list.dart';
-import 'entities_sub_buttons/supplier_list.dart';
 import 'operation_sub_buttons/inventory.dart';
 import 'operation_sub_buttons/receiving.dart';
 import 'operation_sub_buttons/sales.dart';
@@ -10,14 +8,14 @@ import 'operation_sub_buttons/sales.dart';
 
 
 
-class Entities extends StatefulWidget {
+class Operations extends StatefulWidget {
   @override
-  _EntitiesState createState() => _EntitiesState();
+  _OperationsState createState() => _OperationsState();
 }
 
-class _EntitiesState extends State<Entities> {
+class _OperationsState extends State<Operations> {
   int _selectedIndex = 0;
-  final List<String> _tabTitles = ['Customer List', 'Supplier List'];
+  final List<String> _tabTitles = ['Inventory', 'Receiving', 'Sales'];
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +49,7 @@ class _EntitiesState extends State<Entities> {
                     children: [
                       _buildTabButton(0),
                       _buildTabButton(1),
+                      _buildTabButton(2),
                     ],
                     onPressed: (int index) {
                       setState(() {
@@ -87,10 +86,11 @@ class _EntitiesState extends State<Entities> {
   Widget _buildSelectedScreen(int index) {
     switch (index) {
       case 0:
-        return CustomerList();
+        return Inventory();
       case 1:
-        return SupplierList();
-
+        return Receiving();
+      case 2:
+        return Sales();
       default:
         return Container();
     }

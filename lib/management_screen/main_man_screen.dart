@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/dashboard.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/inventory.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/sales.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/receiving.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/medicine.dart'; // Import the new "Medicine" screen
-import 'package:pharmacy_pos/management_screen/sub_screens/customer_list.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/suplier_list.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/operations.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/medicine.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/entities.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -22,12 +19,9 @@ class MainManagementScreen extends StatelessWidget {
   // Mapping between sidebar titles and corresponding screen widgets
   final Map<String, Widget> _screens = {
     'Dashboard': Dashboard(),
-    'Inventory': Inventory(),
-    'Sales': Sales(),
-    'Receiving': Receiving(),
-    'Medicine': Medicine(), // Change to the new "Medicine" screen
-    'Customer List': CustomerList(),
-    'Supplier List': SupplierList(),
+    'Medicine': Medicine(),
+    'Operations': Operations(),
+    'Entities' : Entities(),
     'Users': Users(),
   };
 
@@ -176,28 +170,16 @@ class ExampleSidebarX extends StatelessWidget {
           label: 'Dashboard',
         ),
         const SidebarXItem(
-          icon: Icons.shopping_cart,
-          label: 'Inventory',
-        ),
-        const SidebarXItem(
-          icon: Icons.attach_money,
-          label: 'Sales',
-        ),
-        const SidebarXItem(
-          icon: Icons.receipt,
-          label: 'Receiving',
-        ),
-        const SidebarXItem(
-          icon: Icons.local_hospital, // Change icon to something appropriate for Medicine
+          icon: Icons.business,
           label: 'Medicine',
         ),
         const SidebarXItem(
-          icon: Icons.people,
-          label: 'Customer List',
+          icon: Icons.local_hospital,
+          label: 'Operations',
         ),
         const SidebarXItem(
-          icon: Icons.local_shipping,
-          label: 'Supplier List',
+          icon: Icons.people,
+          label: 'Entities',
         ),
         const SidebarXItem(
           icon: Icons.person,
@@ -244,21 +226,15 @@ String _getTitleByIndex(int index) {
     case 0:
       return 'Dashboard';
     case 1:
-      return 'Inventory';
-    case 2:
-      return 'Sales';
-    case 3:
-      return 'Receiving';
-    case 4:
       return 'Medicine';
-    case 5:
-      return 'Customer List';
-    case 6:
-      return 'Supplier List';
-    case 7:
+    case 2:
+      return 'Operations';
+    case 3:
+      return 'Entities';
+    case 4:
       return 'Users';
     default:
-      return 'Not found page';
+      return 'Dashboard';
   }
 }
 
