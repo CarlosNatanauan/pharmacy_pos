@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/dashboard.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/inventory.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/sales.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/receiving.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/medicine.dart'; // Import the new "Medicine" screen
-import 'package:pharmacy_pos/management_screen/sub_screens/customer_list.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/suplier_list.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/operations.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/medicine.dart';
+import 'package:pharmacy_pos/management_screen/sub_screens/entities.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
+
+import '../login/main_login.dart';
 
 void main() {
   runApp(MainManagementScreen());
@@ -22,12 +21,9 @@ class MainManagementScreen extends StatelessWidget {
   // Mapping between sidebar titles and corresponding screen widgets
   final Map<String, Widget> _screens = {
     'Dashboard': Dashboard(),
-    'Inventory': Inventory(),
-    'Sales': Sales(),
-    'Receiving': Receiving(),
-    'Medicine': Medicine(), // Change to the new "Medicine" screen
-    'Customer List': CustomerList(),
-    'Supplier List': SupplierList(),
+    'Medicine': Medicine(),
+    'Operations': Operations(),
+    'Entities' : Entities(),
     'Users': Users(),
   };
 
@@ -84,6 +80,8 @@ class MainManagementScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 class ExampleSidebarX extends StatelessWidget {
   const ExampleSidebarX({
@@ -176,37 +174,125 @@ class ExampleSidebarX extends StatelessWidget {
           label: 'Dashboard',
         ),
         const SidebarXItem(
-          icon: Icons.shopping_cart,
-          label: 'Inventory',
-        ),
-        const SidebarXItem(
-          icon: Icons.attach_money,
-          label: 'Sales',
-        ),
-        const SidebarXItem(
-          icon: Icons.receipt,
-          label: 'Receiving',
-        ),
-        const SidebarXItem(
-          icon: Icons.local_hospital, // Change icon to something appropriate for Medicine
+          icon: Icons.business,
           label: 'Medicine',
         ),
         const SidebarXItem(
-          icon: Icons.people,
-          label: 'Customer List',
+          icon: Icons.local_hospital,
+          label: 'Operations',
         ),
         const SidebarXItem(
-          icon: Icons.local_shipping,
-          label: 'Supplier List',
+          icon: Icons.people,
+          label: 'Entities',
         ),
         const SidebarXItem(
           icon: Icons.person,
           label: 'Users',
         ),
+
       ],
+
+
+
+      footerBuilder: (context, extended) {
+        // Calculate the width and height of the sidebar menu bar
+        final sidebarWidth = MediaQuery.of(context).size.width * 0.2; // 20% of the screen width
+        final sidebarHeight = MediaQuery.of(context).size.height; // Full height of the screen
+
+        // Define the colors and styles
+        final Color buttonColor = extended ? canvasColor : accentCanvasColor;
+
+        // Function to handle logout action
+        void logout() {
+          // Show dialog to confirm logout
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Confirm Logout", style: TextStyle(color: white, fontSize: 20)),
+                content: Text("Are you sure you want to logout?", style: TextStyle(color: white)),
+                backgroundColor: scaffoldBackgroundColor,
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Cancel", style: TextStyle(color: white)),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                      // Navigate to the login screen
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainLoginScreen()),
+                      );
+                    },
+                    child: Text("Logout", style: TextStyle(color: Colors.red.withOpacity(0.7))),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+
+        // Check if the sidebar is extended or not
+        if (extended) {
+          // If extended, display the logout button with icon
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0), // Add vertical padding
+            child: SizedBox(
+              width: sidebarWidth, // Set the width to the width of the sidebar menu bar
+              height: sidebarHeight * 0.05, // Set the height to 5% of the screen height
+              child: ElevatedButton.icon(
+                onPressed: logout, // Call logout function when button is pressed
+                icon: Icon(Icons.exit_to_app, color: Colors.red.withOpacity(0.7)),
+                label: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.red.withOpacity(0.7)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.redAccent.withOpacity(0.7), // Change button color when hovered
+                  backgroundColor: buttonColor,
+                  elevation: 0, // Remove button elevation
+                  padding: EdgeInsets.all(5), // Set button padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0), // Set border radius to 10
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else {
+          // If minimized, display only the logout icon
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0), // Add vertical padding
+            child: IconButton(
+              onPressed: logout, // Call logout function when icon is pressed
+              icon: Icon(Icons.exit_to_app, color: Colors.red.withOpacity(0.7)),
+            ),
+          );
+        }
+      },
+
+
+
+
+
+
+
+
+
     );
   }
 }
+
+
+
+
+
 
 class _ScreensExample extends StatelessWidget {
   const _ScreensExample({
@@ -244,21 +330,15 @@ String _getTitleByIndex(int index) {
     case 0:
       return 'Dashboard';
     case 1:
-      return 'Inventory';
-    case 2:
-      return 'Sales';
-    case 3:
-      return 'Receiving';
-    case 4:
       return 'Medicine';
-    case 5:
-      return 'Customer List';
-    case 6:
-      return 'Supplier List';
-    case 7:
+    case 2:
+      return 'Operations';
+    case 3:
+      return 'Entities';
+    case 4:
       return 'Users';
     default:
-      return 'Not found page';
+      return 'Dashboard';
   }
 }
 

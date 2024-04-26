@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacy_pos/home_selection.dart'; // Importing home_selection.dart
 
+
+import '../management_screen/main_man_screen.dart';
+import '../pos_screen/main_pos_screen.dart'; // Import MainPosScreen file
+
 // Define the color scheme
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
@@ -11,10 +15,12 @@ final actionColor = const Color(0xFF5F5FA7).withOpacity(0.6);
 final divider = Divider(color: white.withOpacity(0.3), height: 1);
 
 class MainLoginScreen extends StatelessWidget {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: scaffoldBackgroundColor,
       body: Center(
         child: Container(
@@ -31,56 +37,84 @@ class MainLoginScreen extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Username',
-                  hintStyle: TextStyle(color: white),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: white),
+          child: Form(
+            onWillPop: () async => false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    hintText: 'Username',
+                    hintStyle: TextStyle(color: white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: white),
+                    ),
+                  ),
+                  style: TextStyle(color: white),
+                  onFieldSubmitted: (_) => _submitForm(context),
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: white),
+                    ),
+                  ),
+                  style: TextStyle(color: white),
+                  obscureText: true,
+                  onFieldSubmitted: (_) => _submitForm(context),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => _submitForm(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(fontSize: 16, color: white),
                   ),
                 ),
-                style: TextStyle(color: white),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  hintStyle: TextStyle(color: white),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: white),
-                  ),
-                ),
-                style: TextStyle(color: white),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to HomeSelectionScreen when button is clicked
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeSelectionScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-                child: Text(
-                  'Login',
-                  style: TextStyle(fontSize: 16, color: white),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _submitForm(BuildContext context) {
+    final username = usernameController.text;
+    final password = passwordController.text;
+
+    // Check credentials and navigate accordingly
+    if (username == 'man' && password == 'man') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainManagementScreen()),
+      );
+    } else if (username == 'pos' && password == 'pos') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainPosScreen()),
+      );
+    } else {
+      // Handle incorrect credentials
+      // For now, you can show a snackbar or dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Incorrect username or password'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 }

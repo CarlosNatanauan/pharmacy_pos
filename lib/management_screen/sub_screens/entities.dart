@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'medicine_sub_buttons/expired_list.dart';
-import 'medicine_sub_buttons/medicine_category.dart';
-import 'medicine_sub_buttons/medicine_list.dart';
-import 'medicine_sub_buttons/medicine_types.dart';
+
+import 'entities_sub_buttons/customer_list.dart';
+import 'entities_sub_buttons/supplier_list.dart';
+import 'operation_sub_buttons/inventory.dart';
+import 'operation_sub_buttons/receiving.dart';
+import 'operation_sub_buttons/sales.dart';
 
 
 
-class Medicine extends StatefulWidget {
+
+
+class Entities extends StatefulWidget {
   @override
-  _MedicineState createState() => _MedicineState();
+  _EntitiesState createState() => _EntitiesState();
 }
 
-class _MedicineState extends State<Medicine> {
+class _EntitiesState extends State<Entities> {
   int _selectedIndex = 0;
-  final List<String> _tabTitles = ['Medicine List', 'Medicine Category', 'Medicine Types',  'Expired List'];
+  final List<String> _tabTitles = ['Customer List', 'Supplier List'];
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +51,6 @@ class _MedicineState extends State<Medicine> {
                     children: [
                       _buildTabButton(0),
                       _buildTabButton(1),
-                      _buildTabButton(2),
-                      _buildTabButton(3),
                     ],
                     onPressed: (int index) {
                       setState(() {
@@ -85,13 +87,10 @@ class _MedicineState extends State<Medicine> {
   Widget _buildSelectedScreen(int index) {
     switch (index) {
       case 0:
-        return MedicineList();
+        return CustomerList();
       case 1:
-        return MedicineCategory();
-      case 2:
-        return MedicineTypes();
-      case 3:
-        return ExpiredList();
+        return SupplierList();
+
       default:
         return Container();
     }
