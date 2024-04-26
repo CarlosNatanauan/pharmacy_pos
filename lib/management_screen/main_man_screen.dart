@@ -6,6 +6,8 @@ import 'package:pharmacy_pos/management_screen/sub_screens/entities.dart';
 import 'package:pharmacy_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
 
+import '../login/main_login.dart';
+
 void main() {
   runApp(MainManagementScreen());
 }
@@ -78,6 +80,8 @@ class MainManagementScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 class ExampleSidebarX extends StatelessWidget {
   const ExampleSidebarX({
@@ -185,10 +189,110 @@ class ExampleSidebarX extends StatelessWidget {
           icon: Icons.person,
           label: 'Users',
         ),
+
       ],
+
+
+
+      footerBuilder: (context, extended) {
+        // Calculate the width and height of the sidebar menu bar
+        final sidebarWidth = MediaQuery.of(context).size.width * 0.2; // 20% of the screen width
+        final sidebarHeight = MediaQuery.of(context).size.height; // Full height of the screen
+
+        // Define the colors and styles
+        final Color buttonColor = extended ? canvasColor : accentCanvasColor;
+
+        // Function to handle logout action
+        void logout() {
+          // Show dialog to confirm logout
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Confirm Logout", style: TextStyle(color: white, fontSize: 20)),
+                content: Text("Are you sure you want to logout?", style: TextStyle(color: white)),
+                backgroundColor: scaffoldBackgroundColor,
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Cancel", style: TextStyle(color: white)),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                      // Navigate to the login screen
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainLoginScreen()),
+                      );
+                    },
+                    child: Text("Logout", style: TextStyle(color: Colors.red.withOpacity(0.7))),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+
+        // Check if the sidebar is extended or not
+        if (extended) {
+          // If extended, display the logout button with icon
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0), // Add vertical padding
+            child: SizedBox(
+              width: sidebarWidth, // Set the width to the width of the sidebar menu bar
+              height: sidebarHeight * 0.05, // Set the height to 5% of the screen height
+              child: ElevatedButton.icon(
+                onPressed: logout, // Call logout function when button is pressed
+                icon: Icon(Icons.exit_to_app, color: Colors.red.withOpacity(0.7)),
+                label: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.red.withOpacity(0.7)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.redAccent.withOpacity(0.7), // Change button color when hovered
+                  backgroundColor: buttonColor,
+                  elevation: 0, // Remove button elevation
+                  padding: EdgeInsets.all(5), // Set button padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0), // Set border radius to 10
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else {
+          // If minimized, display only the logout icon
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0), // Add vertical padding
+            child: IconButton(
+              onPressed: logout, // Call logout function when icon is pressed
+              icon: Icon(Icons.exit_to_app, color: Colors.red.withOpacity(0.7)),
+            ),
+          );
+        }
+      },
+
+
+
+
+
+
+
+
+
     );
   }
 }
+
+
+
+
+
 
 class _ScreensExample extends StatelessWidget {
   const _ScreensExample({
