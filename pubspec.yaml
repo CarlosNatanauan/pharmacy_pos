@@ -1,4 +1,4 @@
-name: pharmacy_pos
+name: pharmanode_pos
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -35,6 +35,13 @@ dependencies:
   msix: ^3.16.7
   change_app_package_name: ^1.1.0
 
+
+msix_config:
+  display_name: PharmaNode POS
+  publisher_display_name: Nucleio Information Services
+  identity_name: com.pharmacode.pos
+  msix_version: 1.0.0.0
+  logo_path: D:\Documents\Flutter\pharmacy_pos\assets\images\logo\logo.png
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

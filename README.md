@@ -1,4 +1,4 @@
-# pharmacy_pos
+# pharmanode_pos
 
 A new Flutter project.
 
