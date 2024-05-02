@@ -72,7 +72,7 @@ class _AddUserState extends State<AddUser> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('Personal Information', style: TextStyle(color: white, fontSize: 18, fontWeight: FontWeight.bold)),
+                            Center(child: Text('Personal Information', style: TextStyle(color: white, fontSize: 18, fontWeight: FontWeight.bold))),
                             SizedBox(height: 20),
                             TextFormField(
                               decoration: InputDecoration(
@@ -139,7 +139,7 @@ class _AddUserState extends State<AddUser> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('User Credentials', style: TextStyle(color: white, fontSize: 18, fontWeight: FontWeight.bold)),
+                            Center(child: Text('User Credentials', style: TextStyle(color: white, fontSize: 18, fontWeight: FontWeight.bold))),
                             SizedBox(height: 20),
                             TextFormField(
                               decoration: InputDecoration(
