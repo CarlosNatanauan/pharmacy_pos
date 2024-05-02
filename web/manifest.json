@@ -1,6 +1,6 @@
 {
-    "name": "pharmacy_pos",
-    "short_name": "pharmacy_pos",
+    "name": "pharmanode_pos",
+    "short_name": "pharmanode_pos",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

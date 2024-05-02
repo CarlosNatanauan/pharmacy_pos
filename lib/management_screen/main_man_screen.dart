@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/dashboard.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/operations.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/medicine.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/entities.dart';
-import 'package:pharmacy_pos/management_screen/sub_screens/users.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/dashboard.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/operations.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/medicine.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/entities.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import '../login/main_login.dart';
