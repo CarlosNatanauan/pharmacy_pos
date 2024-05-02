@@ -54,7 +54,7 @@ class _AddUserState extends State<AddUser> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          _image == null ? 'Tap to select image' : 'Tap to change image',
+                          _image == null ? 'Click to select image' : 'Click to change image',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],
@@ -77,7 +77,7 @@ class _AddUserState extends State<AddUser> {
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: 'First Name',
-                                labelStyle: TextStyle(color: white),
+                                labelStyle: TextStyle(color: Colors.white70),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
@@ -97,7 +97,7 @@ class _AddUserState extends State<AddUser> {
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: 'Middle Name',
-                                labelStyle: TextStyle(color: white),
+                                labelStyle: TextStyle(color: Colors.white70),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
@@ -111,7 +111,7 @@ class _AddUserState extends State<AddUser> {
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: 'Last Name',
-                                labelStyle: TextStyle(color: white),
+                                labelStyle: TextStyle(color: Colors.white70),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
@@ -144,7 +144,7 @@ class _AddUserState extends State<AddUser> {
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: 'Username',
-                                labelStyle: TextStyle(color: white),
+                                labelStyle: TextStyle(color: Colors.white70),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
@@ -164,7 +164,7 @@ class _AddUserState extends State<AddUser> {
                             TextFormField(
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                labelStyle: TextStyle(color: white),
+                                labelStyle: TextStyle(color: Colors.white70),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
@@ -172,7 +172,7 @@ class _AddUserState extends State<AddUser> {
                                   borderSide: BorderSide(color: white),
                                 ),
                               ),
-                              obscureText: true,
+                              //obscureText: true,
                               style: TextStyle(color: white),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -185,7 +185,7 @@ class _AddUserState extends State<AddUser> {
                             DropdownButtonFormField<String>(
                               decoration: InputDecoration(
                                 labelText: 'Role',
-                                labelStyle: TextStyle(color: white),
+                                labelStyle: TextStyle(color: Colors.white70),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
@@ -212,27 +212,58 @@ class _AddUserState extends State<AddUser> {
                   ],
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Processing Data')),
-                      );
-                    }
-                  },
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 18), // Increase the font size
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Increase the padding
-                    foregroundColor: white,
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Clear form fields here
+                        _formKey.currentState?.reset();
+                        // Also, clear the selected image
+                        setState(() {
+                          _image = null;
+                        });
+                      },
+                      child: Text(
+                        'Clear',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                        foregroundColor: white,
+                        backgroundColor: Colors.red.withOpacity(0.7), // Choose a color for clear button
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(width: 10), // Add space between buttons
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Processing Data')),
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                        foregroundColor: white,
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+
 
 
               ],
