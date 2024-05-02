@@ -54,7 +54,7 @@ class _AddUserState extends State<AddUser> {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          _image == null ? 'Tap to select image' : 'Tap to change image',
+                          _image == null ? 'Click to select image' : 'Click to change image',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],
