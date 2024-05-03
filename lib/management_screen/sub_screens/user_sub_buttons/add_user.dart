@@ -67,8 +67,14 @@ class _AddUserState extends State<AddUser> {
                   children: <Widget>[
                     Expanded(
                       child: Container(
+
+
                         padding: EdgeInsets.all(20),
-                        color: canvasColor,
+
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: canvasColor,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -135,7 +141,12 @@ class _AddUserState extends State<AddUser> {
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.all(20),
-                        color: canvasColor,
+
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: canvasColor,
+                        ),
+
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
