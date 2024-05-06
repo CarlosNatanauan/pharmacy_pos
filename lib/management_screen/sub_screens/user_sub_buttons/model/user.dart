@@ -1,11 +1,11 @@
 class User {
-  final String firstName;
-  final String middleName;
-  final String lastName;
-  final String username;
-  final String password;
-  final String imageUrl;
-  final String role; // Define the role property
+   String firstName;
+   String middleName;
+   String lastName;
+   String username;
+   String password;
+   String imageUrl;
+   String role;
 
   User({
     required this.firstName,
@@ -14,6 +14,6 @@ class User {
     required this.username,
     required this.password,
     required this.imageUrl,
-    required this.role, // Add role to the constructor parameters
+    required this.role,
   });
 }

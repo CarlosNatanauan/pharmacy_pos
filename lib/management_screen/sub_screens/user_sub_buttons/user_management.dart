@@ -59,12 +59,7 @@ class UserManagement extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: UserCard(
-                                      firstName: user.firstName,
-                                      middleName: user.middleName,
-                                      lastName: user.lastName,
-                                      username: user.username,
-                                      password: user.password,
-                                      imageUrl: _formatImageUrl(user.imageUrl),
+                                      user: user, // Pass the user object to UserCard
                                     ),
                                   );
                                 }).toList(),
@@ -116,13 +111,7 @@ class UserManagement extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: UserCard(
-                                      firstName: user.firstName,
-                                      middleName: user.middleName,
-                                      lastName: user.lastName,
-                                      username: user.username,
-                                      password: user.password,
-                                      imageUrl: _formatImageUrl(user.imageUrl),
-
+                                      user: user, // Pass the user object to UserCard
                                     ),
                                   );
                                 }).toList(),
@@ -142,22 +131,18 @@ class UserManagement extends StatelessWidget {
     );
   }
 
-  // Function to format the image URL
-// Function to format the image URL
-// Function to format the image URL
-  String _formatImageUrl(String imageUrl) {
-    // Check if the imageUrl starts with 'http' or 'https' to determine if it's a remote URL
-    if (imageUrl.startsWith('http') || imageUrl.startsWith('https')) {
-      // Return the original imageUrl for remote URLs
-      return imageUrl;
-    } else {
-      // Assume it's a local file path and return it directly
-      return imageUrl;
-    }
-  }
+
+
+
+
+
 
 
 }
+
+
+
+
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);

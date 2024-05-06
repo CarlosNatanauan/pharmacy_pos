@@ -23,4 +23,10 @@ class UserProvider extends ChangeNotifier {
   List<User> getStoreManagers() {
     return _users.where((user) => user.role == 'Store Manager').toList();
   }
+
+  // Method to delete a user
+  void deleteUser(User user) {
+    _users.remove(user); // Remove the user from the list
+    notifyListeners(); // Notify listeners that the data has changed
+  }
 }
