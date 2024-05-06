@@ -46,7 +46,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: canvasColor,
-        title: Text('Edit User'),
+        title: Text('Edit User', style: TextStyle(color: white),),
+        iconTheme: IconThemeData(
+          color: white, // Set icon color to white
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -285,7 +288,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             });
                           },
                           child: Text(
-                            'Clear',
+                            'Cancel',
                             style: TextStyle(fontSize: 18),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -303,7 +306,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             // Implement update logic here
                           },
                           child: Text(
-                            'Submit',
+                            'Save',
                             style: TextStyle(fontSize: 18),
                           ),
                           style: ElevatedButton.styleFrom(
