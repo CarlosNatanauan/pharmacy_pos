@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'Cards/user_card.dart';
+import 'model/user.dart';
+import 'model/user_provider.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -47,21 +50,21 @@ class UserManagement extends StatelessWidget {
                       SizedBox(height: 20),
                       Expanded(
                         child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(5, (index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: UserCard(
-                                  firstName: "Diwata",
-                                  middleName: "Pares",
-                                  lastName: "Overload",
-                                  username: "diwata-123",
-                                  password: "********",
-                                  imageUrl: "assets/images/diwata.png",
-                                ),
+                          child: Consumer<UserProvider>(
+                            builder: (context, userProvider, child) {
+                              List<User> cashiers = userProvider.getCashiers();
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: cashiers.map((user) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: UserCard(
+                                      user: user, // Pass the user object to UserCard
+                                    ),
+                                  );
+                                }).toList(),
                               );
-                            }),
+                            },
                           ),
                         ),
                       ),
@@ -99,21 +102,21 @@ class UserManagement extends StatelessWidget {
                       SizedBox(height: 20),
                       Expanded(
                         child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(2, (index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: UserCard(
-                                  firstName: "Doc",
-                                  middleName: "Willie",
-                                  lastName: "Ong",
-                                  username: "docwillie-123",
-                                  password: "********",
-                                  imageUrl: "assets/images/doc.png",
-                                ),
+                          child: Consumer<UserProvider>(
+                            builder: (context, userProvider, child) {
+                              List<User> storeManagers = userProvider.getStoreManagers();
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: storeManagers.map((user) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: UserCard(
+                                      user: user, // Pass the user object to UserCard
+                                    ),
+                                  );
+                                }).toList(),
                               );
-                            }),
+                            },
                           ),
                         ),
                       ),
@@ -127,7 +130,19 @@ class UserManagement extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+
+
+
+
 }
+
+
+
+
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);

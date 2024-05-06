@@ -1,10 +1,19 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'login/main_login.dart'; // Importing main_login.dart
-
+import 'login/main_login.dart';
+import 'management_screen/sub_screens/user_sub_buttons/model/user_provider.dart'; // Importing main_login.dart
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        // Add more providers if needed
+      ],
+      child: MyApp(),
+    ),
+  );
 
   // Initial window size
   doWhenWindowReady(() {
@@ -20,6 +29,7 @@ void main() {
     appWindow.maximize();
   });
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
