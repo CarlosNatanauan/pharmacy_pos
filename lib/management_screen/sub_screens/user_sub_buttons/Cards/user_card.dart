@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class UserCard extends StatelessWidget {
@@ -35,8 +37,8 @@ class UserCard extends StatelessWidget {
           // Image
           Padding(
             padding: const EdgeInsets.only(right: 10),
-            child: Image.asset(
-              imageUrl,
+            child: Image.file(
+              File(imageUrl), // Use Image.file instead of Image.asset
               width: screenWidth * 0.07, // Adjust based on screen size
               height: screenWidth * 0.07, // Adjust based on screen size
               fit: BoxFit.cover,

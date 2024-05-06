@@ -34,6 +34,7 @@ dependencies:
   sidebarx: ^0.17.1
   msix: ^3.16.7
   image_picker: ^1.1.1
+  provider: ^6.1.2
 
 
 msix_config:

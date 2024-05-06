@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
+
+import 'model/user.dart';
+import 'model/user_provider.dart';
 
 class AddUser extends StatefulWidget {
   @override
@@ -9,11 +13,14 @@ class AddUser extends StatefulWidget {
 
 class _AddUserState extends State<AddUser> {
   final _formKey = GlobalKey<FormState>();
-
   final ImagePicker _picker = ImagePicker();
-
-  // For storing the selected image
   XFile? _image;
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _middleNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  String? _selectedRole;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class _AddUserState extends State<AddUser> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Container(
-            padding: const EdgeInsets.all(20.0), // Add padding here
+            padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               color: canvasColor,
@@ -92,6 +99,7 @@ class _AddUserState extends State<AddUser> {
                                   child: Text('Personal Information', style: TextStyle(color: white, fontSize: 18, fontWeight: FontWeight.bold))),
                               SizedBox(height: 20),
                               TextFormField(
+                                controller: _firstNameController,
                                 decoration: InputDecoration(
                                   labelText: 'First Name',
                                   labelStyle: TextStyle(color: Colors.white70),
@@ -112,6 +120,7 @@ class _AddUserState extends State<AddUser> {
                               ),
                               SizedBox(height: 20),
                               TextFormField(
+                                controller: _middleNameController,
                                 decoration: InputDecoration(
                                   labelText: 'Middle Name',
                                   labelStyle: TextStyle(color: Colors.white70),
@@ -126,6 +135,7 @@ class _AddUserState extends State<AddUser> {
                               ),
                               SizedBox(height: 20),
                               TextFormField(
+                                controller: _lastNameController,
                                 decoration: InputDecoration(
                                   labelText: 'Last Name',
                                   labelStyle: TextStyle(color: Colors.white70),
@@ -163,6 +173,7 @@ class _AddUserState extends State<AddUser> {
                                   child: Text('User Credentials', style: TextStyle(color: white, fontSize: 18, fontWeight: FontWeight.bold))),
                               SizedBox(height: 20),
                               TextFormField(
+                                controller: _usernameController,
                                 decoration: InputDecoration(
                                   labelText: 'Username',
                                   labelStyle: TextStyle(color: Colors.white70),
@@ -183,6 +194,7 @@ class _AddUserState extends State<AddUser> {
                               ),
                               SizedBox(height: 20),
                               TextFormField(
+                                controller: _passwordController,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
                                   labelStyle: TextStyle(color: Colors.white70),
@@ -225,7 +237,11 @@ class _AddUserState extends State<AddUser> {
                                   }
                                   return null;
                                 },
-                                onChanged: (String? value) {},
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _selectedRole = value; // Store the selected role
+                                  });
+                                },
                               ),
                             ],
                           ),
@@ -263,10 +279,42 @@ class _AddUserState extends State<AddUser> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            // Create a new User object
+                            User newUser = User(
+                              firstName: _firstNameController.text,
+                              middleName: _middleNameController.text,
+                              lastName: _lastNameController.text,
+                              username: _usernameController.text,
+                              password: _passwordController.text,
+                              imageUrl: _image?.path ?? '',
+                              role: _selectedRole ?? '', // Assign the selected role
+                            );
+
+                            // Print user information
+                            print('New User Information:');
+                            print('First Name: ${newUser.firstName}');
+                            print('Middle Name: ${newUser.middleName}');
+                            print('Last Name: ${newUser.lastName}');
+                            print('Username: ${newUser.username}');
+                            print('Password: ${newUser.password}');
+                            print('Image URL: ${newUser.imageUrl}');
+                            print('Role: ${newUser.role}'); // Print role
+
+                            // Add the new user to the provider
+                            Provider.of<UserProvider>(context, listen: false).addUser(newUser);
+
+                            // Show a snackbar
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data')),
+                              SnackBar(content: Text('User added')),
                             );
                           }
+
+                          // Clear form fields here
+                          _formKey.currentState?.reset();
+                          // Also, clear the selected image
+                          setState(() {
+                            _image = null;
+                          });
                         },
                         child: Text(
                           'Submit',
@@ -301,19 +349,3 @@ const containerColor = Color(0xFF353550);
 const white = Colors.white;
 final actionColor = const Color(0xFF5F5FA7).withOpacity(0.6);
 final divider = Divider(color: white.withOpacity(0.3), height: 1);
-
-void main() {
-  runApp(MaterialApp(
-    home: Container(
-      padding: EdgeInsets.all(20), // Add padding to the outer container
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF333366), Color(0xFF2E2E48)],
-        ),
-      ),
-      child: AddUser(),
-    ),
-  ));
-}
