@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/user_sub_buttons/activity_logs.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/user_sub_buttons/add_user.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/user_sub_buttons/user_management.dart';
 
@@ -11,7 +12,7 @@ class Users extends StatefulWidget {
 
 class _UsersState extends State<Users> {
   int _selectedIndex = 0;
-  final List<String> _tabTitles = ['User Management', 'Add Users'];
+  final List<String> _tabTitles = ['User Management', 'Add Users', 'Activity Logs'];
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,7 @@ class _UsersState extends State<Users> {
                     children: [
                       _buildTabButton(0),
                       _buildTabButton(1),
+                      _buildTabButton(2),
                     ],
                     onPressed: (int index) {
                       setState(() {
@@ -84,6 +86,8 @@ class _UsersState extends State<Users> {
         return UserManagement();
       case 1:
         return AddUser();
+      case 2:
+        return ActivityLogs();
 
       default:
         return Container();

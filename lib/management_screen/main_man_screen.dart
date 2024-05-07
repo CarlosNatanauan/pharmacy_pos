@@ -20,21 +20,21 @@ class MainManagementScreen extends StatelessWidget {
   final _key = GlobalKey<ScaffoldState>();
 
   // Mapping between sidebar titles and corresponding screen widgets
-  Map<String, Widget> get _screens {
-    final Map<String, Widget> screens = {
-      'Dashboard': Dashboard(),
-      'Medicine': Medicine(),
-      'Operations': Operations(),
-      'Entities': Entities(),
-    };
-    if (isAdmin) {
-      screens['Users'] = Users();
-    }
-    return screens;
-  }
+  final Map<String, Widget> _screens = {
+    'Dashboard': Dashboard(),
+    'Medicine': Medicine(),
+    'Operations': Operations(),
+    'Entities': Entities(),
+    'Users': Users(),
+  };
 
   @override
   Widget build(BuildContext context) {
+    // Call your welcome message here
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WelcomeMessage.show(context);
+    });
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -281,7 +281,7 @@ class ExampleSidebarX extends StatelessWidget {
   }
 }
 
-class _ScreensExample extends StatefulWidget {
+class _ScreensExample extends StatelessWidget {
   const _ScreensExample({
     Key? key,
     required this.controller,
@@ -292,39 +292,25 @@ class _ScreensExample extends StatefulWidget {
   final Map<String, Widget> screens;
 
   @override
-  _ScreensExampleState createState() => _ScreensExampleState();
-}
-
-class _ScreensExampleState extends State<_ScreensExample> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _showWelcomeMessage();
-    });
-  }
-
-  void _showWelcomeMessage() {
-    WelcomeMessage.show(context);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final pageTitle = _getTitleByIndex(widget.controller.selectedIndex);
-    final screenWidget = widget.screens[pageTitle];
-
-    return Center(
-      child: screenWidget != null
-          ? screenWidget
-          : Text(
-        'Not found page',
-        style: theme.textTheme.headlineSmall,
-      ),
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        final pageTitle = _getTitleByIndex(controller.selectedIndex);
+        final screenWidget = screens[pageTitle];
+        return Center(
+          child: screenWidget != null
+              ? screenWidget
+              : Text(
+            'Not found page',
+            style: theme.textTheme.headlineSmall,
+          ),
+        );
+      },
     );
   }
 }
-
 
 String _getTitleByIndex(int index) {
   switch (index) {
