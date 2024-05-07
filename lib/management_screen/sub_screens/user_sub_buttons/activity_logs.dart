@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class ActivityLogs extends StatelessWidget {
   // Sample data for demonstration
   final List<List<String>> rowData = [
-    ['User 1', '2024-05-15', '09:30 AM', 'Login'],
-    ['User 1', '2024-05-15', '09:30 AM', 'Login'],
-    ['User 1', '2024-05-15', '09:30 AM', 'Login'],
-    ['User 1', '2024-05-15', '09:30 AM', 'Login'],
-    ['User 1', '2024-05-15', '09:30 AM', 'Login'],
+    ['Ryan Rems(Store Manager)', '2024-06-01', '09:30 AM', 'Login'],
+    ['Nonong Balinan(Cashier)', '2024-05-18', '10:30 AM', 'Logout'],
+    ['GB Labrador(Cashier)', '2024-06-15', '11:30 AM', 'Login'],
+    ['Muman Reyes(Store Manager)', '2024-05-12', '01:30 PM', 'Logout'],
+    ['James Caraan(Cashier)', '2024-05-09', '004:30 PM', 'Login'],
     // Add more rows here if needed
   ];
 
