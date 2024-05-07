@@ -29,4 +29,13 @@ class UserProvider extends ChangeNotifier {
     _users.remove(user); // Remove the user from the list
     notifyListeners(); // Notify listeners that the data has changed
   }
+
+  // Method to update user information
+  void updateUser(User oldUser, User newUser) {
+    final index = _users.indexOf(oldUser);
+    if (index != -1) {
+      _users[index] = newUser;
+      notifyListeners();
+    }
+  }
 }

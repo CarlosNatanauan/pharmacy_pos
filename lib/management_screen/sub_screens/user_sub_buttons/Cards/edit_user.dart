@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import '../model/user.dart';
 import '../model/user_provider.dart';
 
@@ -280,12 +281,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Clear form fields here
-                            _formKey.currentState?.reset();
-                            // Also, clear the selected image
-                            setState(() {
-                              _image = null;
-                            });
+
                           },
                           child: Text(
                             'Cancel',
@@ -302,9 +298,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                         ),
                         SizedBox(width: 10), // Add space between buttons
                         ElevatedButton(
-                          onPressed: () {
-                            // Implement update logic here
-                          },
+                          onPressed: _saveChanges,
                           child: Text(
                             'Save',
                             style: TextStyle(fontSize: 18),
@@ -335,6 +329,27 @@ class _EditUserScreenState extends State<EditUserScreen> {
     setState(() {
       _image = image;
     });
+  }
+
+  void _saveChanges() {
+    if (_formKey.currentState!.validate()) {
+      // Create a new User object with updated information
+      final updatedUser = User(
+        firstName: _firstNameController.text,
+        middleName: _middleNameController.text,
+        lastName: _lastNameController.text,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        imageUrl: _image?.path ?? widget.user.imageUrl, // Use the new image if changed, otherwise keep the old one
+        role: _selectedRole ?? widget.user.role, // Use the new role if changed, otherwise keep the old one
+      );
+
+      // Update user information in the provider
+      Provider.of<UserProvider>(context, listen: false).updateUser(widget.user, updatedUser);
+
+      // Navigate back to previous screen
+      Navigator.of(context).pop();
+    }
   }
 }
 
