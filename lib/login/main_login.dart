@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'globals.dart'; // Import globals.dart file
 import '../management_screen/main_man_screen.dart';
-import '../pos_screen/main_pos_screen.dart'; // Import MainPosScreen file
+import '../pos_screen/main_pos_screen.dart';
 
 // Define the color scheme
 const primaryColor = Color(0xFF685BFF);
@@ -40,6 +40,9 @@ class MainLoginScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Welcome Card
+
+
                 TextFormField(
                   controller: usernameController,
                   decoration: InputDecoration(
@@ -95,14 +98,23 @@ class MainLoginScreen extends StatelessWidget {
 
     // Check credentials and navigate accordingly
     if (username == 'man' && password == 'man') {
+      isAdmin = false; // Set isAdmin to true for manager
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainManagementScreen()),
       );
+
     } else if (username == 'pos' && password == 'pos') {
+      isAdmin = false; // Set isAdmin to false for cashier
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainPosScreen()),
+      );
+    } else if (username == 'admin' && password == 'admin') {
+      isAdmin = true; // Set isAdmin to true for admin
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainManagementScreen()),
       );
     } else {
       // Handle incorrect credentials

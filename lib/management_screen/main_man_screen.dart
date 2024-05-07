@@ -6,6 +6,7 @@ import 'package:pharmanode_pos/management_screen/sub_screens/entities.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
 
+import '../login/globals.dart';
 import '../login/main_login.dart';
 
 void main() {
@@ -19,13 +20,18 @@ class MainManagementScreen extends StatelessWidget {
   final _key = GlobalKey<ScaffoldState>();
 
   // Mapping between sidebar titles and corresponding screen widgets
-  final Map<String, Widget> _screens = {
-    'Dashboard': Dashboard(),
-    'Medicine': Medicine(),
-    'Operations': Operations(),
-    'Entities' : Entities(),
-    'Users': Users(),
-  };
+  Map<String, Widget> get _screens {
+    final Map<String, Widget> screens = {
+      'Dashboard': Dashboard(),
+      'Medicine': Medicine(),
+      'Operations': Operations(),
+      'Entities': Entities(),
+    };
+    if (isAdmin) {
+      screens['Users'] = Users();
+    }
+    return screens;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +86,6 @@ class MainManagementScreen extends StatelessWidget {
     );
   }
 }
-
-
 
 class ExampleSidebarX extends StatelessWidget {
   const ExampleSidebarX({
@@ -185,15 +189,12 @@ class ExampleSidebarX extends StatelessWidget {
           icon: Icons.people,
           label: 'Entities',
         ),
-        const SidebarXItem(
-          icon: Icons.person,
-          label: 'Users',
-        ),
-
+        if (isAdmin)
+          const SidebarXItem(
+            icon: Icons.person,
+            label: 'Users',
+          ),
       ],
-
-
-
       footerBuilder: (context, extended) {
         // Calculate the width and height of the sidebar menu bar
         final sidebarWidth = MediaQuery.of(context).size.width * 0.2; // 20% of the screen width
@@ -276,23 +277,9 @@ class ExampleSidebarX extends StatelessWidget {
           );
         }
       },
-
-
-
-
-
-
-
-
-
     );
   }
 }
-
-
-
-
-
 
 class _ScreensExample extends StatelessWidget {
   const _ScreensExample({
