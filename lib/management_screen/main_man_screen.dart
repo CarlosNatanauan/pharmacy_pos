@@ -24,12 +24,17 @@ class MainManagementScreen extends StatelessWidget {
     'Dashboard': Dashboard(),
     'Medicine': Medicine(),
     'Operations': Operations(),
-    'Entities' : Entities(),
+    'Entities': Entities(),
     'Users': Users(),
   };
 
   @override
   Widget build(BuildContext context) {
+    // Call your welcome message here
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WelcomeMessage.show(context);
+    });
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -81,8 +86,6 @@ class MainManagementScreen extends StatelessWidget {
     );
   }
 }
-
-
 
 class ExampleSidebarX extends StatelessWidget {
   const ExampleSidebarX({
@@ -169,9 +172,6 @@ class ExampleSidebarX extends StatelessWidget {
           ],
         );
       },
-
-
-
       items: [
         const SidebarXItem(
           icon: Icons.dashboard,
@@ -194,11 +194,7 @@ class ExampleSidebarX extends StatelessWidget {
             icon: Icons.person,
             label: 'Users',
           ),
-
       ],
-
-
-
       footerBuilder: (context, extended) {
         // Calculate the width and height of the sidebar menu bar
         final sidebarWidth = MediaQuery.of(context).size.width * 0.2; // 20% of the screen width
@@ -281,23 +277,9 @@ class ExampleSidebarX extends StatelessWidget {
           );
         }
       },
-
-
-
-
-
-
-
-
-
     );
   }
 }
-
-
-
-
-
 
 class _ScreensExample extends StatelessWidget {
   const _ScreensExample({

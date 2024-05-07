@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'globals.dart';
 
 bool isAdmin = false;
 String UserType = '';
@@ -25,6 +24,8 @@ class WelcomeMessage {
           userTypeText = 'User';
       }
     }
+
+
 
     String formattedDate = _getFormattedDate();
     String currentTime = _getFormattedTime(); // Initialize current time
@@ -70,7 +71,7 @@ class WelcomeMessage {
                   Text(
                     '$currentTime',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 24,
                       color: white,
                     ),
                   ),
@@ -82,7 +83,6 @@ class WelcomeMessage {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 5),
                   Text(
                     'We\'re glad to see you!',
                     style: TextStyle(
