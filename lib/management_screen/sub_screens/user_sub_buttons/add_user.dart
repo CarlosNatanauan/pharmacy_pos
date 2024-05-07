@@ -254,14 +254,7 @@ class _AddUserState extends State<AddUser> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          // Clear form fields here
-                          _formKey.currentState?.reset();
-                          // Also, clear the selected image
-                          setState(() {
-                            _image = null;
-                          });
-                        },
+                        onPressed: _clearFormFields,
                         child: Text(
                           'Clear',
                           style: TextStyle(fontSize: 18),
@@ -269,15 +262,20 @@ class _AddUserState extends State<AddUser> {
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                           foregroundColor: white,
-                          backgroundColor: Colors.red.withOpacity(0.7), // Choose a color for clear button
+                          backgroundColor: Colors.red.withOpacity(0.7), // Choose a color for the clear button
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                       ),
+
+
                       SizedBox(width: 10), // Add space between buttons
                       ElevatedButton(
                         onPressed: () {
+                          // Clear form fields here
+
+
                           if (_formKey.currentState!.validate()) {
                             // Create a new User object
                             User newUser = User(
@@ -308,13 +306,8 @@ class _AddUserState extends State<AddUser> {
                               SnackBar(content: Text('User added')),
                             );
                           }
+                          _clearFormFields();
 
-                          // Clear form fields here
-                          _formKey.currentState?.reset();
-                          // Also, clear the selected image
-                          setState(() {
-                            _image = null;
-                          });
                         },
                         child: Text(
                           'Submit',
@@ -339,6 +332,21 @@ class _AddUserState extends State<AddUser> {
       ),
     );
   }
+
+  // Method to clear all form fields
+  void _clearFormFields() {
+    _formKey.currentState?.reset();
+    _firstNameController.clear();
+    _middleNameController.clear();
+    _lastNameController.clear();
+    _usernameController.clear();
+    _passwordController.clear();
+    setState(() {
+      _image = null;
+      _selectedRole = null;
+    });
+  }
+
 }
 
 const primaryColor = Color(0xFF685BFF);
