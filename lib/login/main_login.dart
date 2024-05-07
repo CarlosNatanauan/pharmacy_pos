@@ -42,7 +42,6 @@ class MainLoginScreen extends StatelessWidget {
               children: [
                 // Welcome Card
 
-
                 TextFormField(
                   controller: usernameController,
                   decoration: InputDecoration(
@@ -99,6 +98,7 @@ class MainLoginScreen extends StatelessWidget {
     // Check credentials and navigate accordingly
     if (username == 'man' && password == 'man') {
       isAdmin = false; // Set isAdmin to true for manager
+      UserType = 'man'; // Set UserType to 'man' for manager
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainManagementScreen()),
@@ -106,12 +106,14 @@ class MainLoginScreen extends StatelessWidget {
 
     } else if (username == 'pos' && password == 'pos') {
       isAdmin = false; // Set isAdmin to false for cashier
+      UserType = 'pos'; // Set UserType to 'pos' for cashier
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainPosScreen()),
       );
     } else if (username == 'admin' && password == 'admin') {
       isAdmin = true; // Set isAdmin to true for admin
+      UserType = 'admin'; // Set UserType to 'admin' for admin
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainManagementScreen()),

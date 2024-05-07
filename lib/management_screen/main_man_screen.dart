@@ -281,7 +281,7 @@ class ExampleSidebarX extends StatelessWidget {
   }
 }
 
-class _ScreensExample extends StatelessWidget {
+class _ScreensExample extends StatefulWidget {
   const _ScreensExample({
     Key? key,
     required this.controller,
@@ -292,25 +292,39 @@ class _ScreensExample extends StatelessWidget {
   final Map<String, Widget> screens;
 
   @override
+  _ScreensExampleState createState() => _ScreensExampleState();
+}
+
+class _ScreensExampleState extends State<_ScreensExample> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _showWelcomeMessage();
+    });
+  }
+
+  void _showWelcomeMessage() {
+    WelcomeMessage.show(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        final pageTitle = _getTitleByIndex(controller.selectedIndex);
-        final screenWidget = screens[pageTitle];
-        return Center(
-          child: screenWidget != null
-              ? screenWidget
-              : Text(
-            'Not found page',
-            style: theme.textTheme.headlineSmall,
-          ),
-        );
-      },
+    final pageTitle = _getTitleByIndex(widget.controller.selectedIndex);
+    final screenWidget = widget.screens[pageTitle];
+
+    return Center(
+      child: screenWidget != null
+          ? screenWidget
+          : Text(
+        'Not found page',
+        style: theme.textTheme.headlineSmall,
+      ),
     );
   }
 }
+
 
 String _getTitleByIndex(int index) {
   switch (index) {
