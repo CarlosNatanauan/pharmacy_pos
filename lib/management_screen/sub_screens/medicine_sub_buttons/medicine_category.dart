@@ -17,6 +17,10 @@ class _MedicineCategoryState extends State<MedicineCategory> {
     {"id": "2", "name": "Mood Stabilizers"},
     {"id": "3", "name": "Over-the-Counter Medications"},
     {"id": "4", "name": "Prescription Medications"},
+    {"id": "1", "name": "Vitamins"},
+    {"id": "1", "name": "Vitamins"},
+
+
 
   ];
 
