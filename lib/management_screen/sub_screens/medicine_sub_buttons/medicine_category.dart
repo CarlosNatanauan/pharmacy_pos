@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/medicine_sub_buttons/model/category_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/medicine_sub_buttons/provider/category_provider.dart';
+import 'package:provider/provider.dart';
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
@@ -12,23 +15,12 @@ class MedicineCategory extends StatefulWidget {
 }
 
 class _MedicineCategoryState extends State<MedicineCategory> {
-  List<Map<String, String>> categoryData = [
-    {"id": "1", "name": "Vitamins"},
-    {"id": "2", "name": "Mood Stabilizers"},
-    {"id": "3", "name": "Over-the-Counter Medications"},
-    {"id": "4", "name": "Prescription Medications"},
-    {"id": "1", "name": "Vitamins"},
-    {"id": "2", "name": "Mood Stabilizers"},
-    {"id": "3", "name": "Over-the-Counter Medications"},
-    {"id": "4", "name": "Prescription Medications"},
-    {"id": "1", "name": "Vitamins"},
-    {"id": "2", "name": "Mood Stabilizers"},
-    {"id": "3", "name": "Over-the-Counter Medications"},
-    {"id": "4", "name": "Prescription Medications"},
-  ];
+  final TextEditingController _categoryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final categoryProvider = Provider.of<CategoryProvider>(context);
+
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       body: Padding(
@@ -63,9 +55,14 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
+                  SizedBox(height: 20),
+                  Text(
+                    'Category Name',
+                    style: TextStyle(color: white),
+                  ),
                   SizedBox(height: 10),
                   TextFormField(
+                    controller: _categoryController,
                     style: TextStyle(color: white),
                     decoration: InputDecoration(
                       filled: true,
@@ -80,7 +77,14 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final category = Category(
+                            id: '1', // Default ID
+                            name: _categoryController.text,
+                          );
+                          categoryProvider.addCategory(category);
+                          _categoryController.clear();
+                        },
                         child: Text('Save'),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -140,12 +144,11 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        // Container for "Show 10 entries"
 
                         Spacer(), // Spacer to push search bar to the rightmost
                         // Container for search bar
                         Container(
-                          width: 240, // Increased width of the search box
+                          width: 200, // Increased width of the search box
                           child: TextFormField(
                             style: TextStyle(color: white),
                             decoration: InputDecoration(
@@ -173,11 +176,10 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                               DataColumn(label: Text('Name', style: TextStyle(color: white))),
                               DataColumn(label: Text('Action', style: TextStyle(color: white))),
                             ],
-                            rows: List<DataRow>.generate(
-                              categoryData.length,
-                                  (index) => DataRow(cells: [
-                                DataCell(Text(categoryData[index]['id']!, style: TextStyle(color: white))),
-                                DataCell(Text(categoryData[index]['name']!, style: TextStyle(color: white))),
+                            rows: categoryProvider.categories.map((category) {
+                              return DataRow(cells: [
+                                DataCell(Text(category.id, style: TextStyle(color: white))),
+                                DataCell(Text(category.name, style: TextStyle(color: white))),
                                 DataCell(Row(
                                   children: [
                                     ElevatedButton(
@@ -207,8 +209,8 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                     ),
                                   ],
                                 )),
-                              ]),
-                            ),
+                              ]);
+                            }).toList(),
                           ),
                         ),
                       ),
