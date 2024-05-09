@@ -41,6 +41,51 @@ class _MedicineCategoryState extends State<MedicineCategory> {
       categoryProvider.deleteCategory(category);
     }
 
+    void _showEditPrompt(Category category) {
+      TextEditingController _editController = TextEditingController(text: category.name);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Edit Category",
+              style: TextStyle(color: white, fontSize: 20),
+            ),
+            content: TextFormField(
+              controller: _editController,
+              style: TextStyle(color: white),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: containerColor,
+                hintText: 'Enter new category name',
+                hintStyle: TextStyle(color: white.withOpacity(0.5)),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            backgroundColor: scaffoldBackgroundColor,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text("Cancel", style: TextStyle(color: white)),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Update the category name
+                  categoryProvider.updateCategory(category, _editController.text);
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text("Save", style: TextStyle(color: Colors.green)),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+
+
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       body: Padding(
@@ -113,7 +158,9 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _categoryController.clear();
+                        },
                         child: Text('Clear'),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -203,8 +250,12 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                 DataCell(Text(category.name, style: TextStyle(color: white))),
                                 DataCell(Row(
                                   children: [
+
+
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _showEditPrompt(category);
+                                      },
                                       child: Text('Edit'),
                                       style: ElevatedButton.styleFrom(
                                         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -215,6 +266,9 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                         ),
                                       ),
                                     ),
+
+
+
                                     SizedBox(width: 10),
 
 

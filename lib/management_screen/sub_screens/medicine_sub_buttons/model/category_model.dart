@@ -1,8 +1,8 @@
 // category_model.dart
 
 class Category {
-  final String id;
-  final String name;
+   String id;
+   String name;
 
   Category({required this.id, required this.name});
 }
