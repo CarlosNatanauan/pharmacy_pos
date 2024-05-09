@@ -5,6 +5,15 @@ import 'Cards/user_card.dart';
 import 'model/user.dart';
 import 'model/user_provider.dart';
 
+const primaryColor = Color(0xFF685BFF);
+const canvasColor = Color(0xFF2E2E48);
+const scaffoldBackgroundColor = Color(0xFF464667);
+const containerColor = Color(0xFF353550);
+const white = Colors.white;
+
+final actionColor = const Color(0xFF5F5FA7).withOpacity(0.6);
+final divider = Divider(color: white.withOpacity(0.3), height: 1);
+
 void main() {
   runApp(MaterialApp(
     home: UserManagement(),
@@ -144,11 +153,4 @@ class UserManagement extends StatelessWidget {
 
 
 
-const primaryColor = Color(0xFF685BFF);
-const canvasColor = Color(0xFF2E2E48);
-const scaffoldBackgroundColor = Color(0xFF464667);
-const containerColor = Color(0xFF353550);
-const white = Colors.white;
 
-final actionColor = const Color(0xFF5F5FA7).withOpacity(0.6);
-final divider = Divider(color: white.withOpacity(0.3), height: 1);
