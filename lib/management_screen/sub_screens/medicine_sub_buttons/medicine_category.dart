@@ -18,10 +18,13 @@ class _MedicineCategoryState extends State<MedicineCategory> {
     {"id": "3", "name": "Over-the-Counter Medications"},
     {"id": "4", "name": "Prescription Medications"},
     {"id": "1", "name": "Vitamins"},
+    {"id": "2", "name": "Mood Stabilizers"},
+    {"id": "3", "name": "Over-the-Counter Medications"},
+    {"id": "4", "name": "Prescription Medications"},
     {"id": "1", "name": "Vitamins"},
-
-
-
+    {"id": "2", "name": "Mood Stabilizers"},
+    {"id": "3", "name": "Over-the-Counter Medications"},
+    {"id": "4", "name": "Prescription Medications"},
   ];
 
   @override
@@ -60,11 +63,7 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Category Name',
-                    style: TextStyle(color: white),
-                  ),
+
                   SizedBox(height: 10),
                   TextFormField(
                     style: TextStyle(color: white),
@@ -109,7 +108,6 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                   ),
                 ],
               ),
-
             ),
             SizedBox(width: 20),
             // Right Container
@@ -143,44 +141,11 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     Row(
                       children: [
                         // Container for "Show 10 entries"
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Show',
-                                style: TextStyle(color: white),
-                              ),
-                              SizedBox(width: 8),
-                              DropdownButton<String>(
-                                value: '100',
-                                icon: Icon(Icons.arrow_drop_down, color: white),
-                                style: TextStyle(color: white),
-                                dropdownColor: containerColor,
-                                onChanged: (String? value) {},
-                                items: <String>['10', '20', '50', '100']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Container(
-                                      width: 30, // Fixed width for consistency
-                                      child: Text(value),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'entries',
-                                style: TextStyle(color: white),
-                              ),
-                            ],
-                          ),
-                        ),
+
                         Spacer(), // Spacer to push search bar to the rightmost
                         // Container for search bar
                         Container(
-                          width: 200, // Increased width of the search box
+                          width: 240, // Increased width of the search box
                           child: TextFormField(
                             style: TextStyle(color: white),
                             decoration: InputDecoration(
@@ -196,52 +161,54 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.52, // Match the width of the container
-                        child: DataTable(
-                          columnSpacing: 20, // Adjust column spacing as needed
-                          columns: [
-                            DataColumn(label: Text('ID', style: TextStyle(color: white))),
-                            DataColumn(label: Text('Name', style: TextStyle(color: white))),
-                            DataColumn(label: Text('Action', style: TextStyle(color: white))),
-                          ],
-                          rows: List<DataRow>.generate(
-                            categoryData.length,
-                                (index) => DataRow(cells: [
-                              DataCell(Text(categoryData[index]['id']!, style: TextStyle(color: white))),
-                              DataCell(Text(categoryData[index]['name']!, style: TextStyle(color: white))),
-                              DataCell(Row(
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text('Edit'),
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                                      foregroundColor: white,
-                                      backgroundColor: Colors.blueAccent.withOpacity(0.7),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.52, // Match the width of the container
+                          child: DataTable(
+                            columnSpacing: 20, // Adjust column spacing as needed
+                            columns: [
+                              DataColumn(label: Text('ID', style: TextStyle(color: white))),
+                              DataColumn(label: Text('Name', style: TextStyle(color: white))),
+                              DataColumn(label: Text('Action', style: TextStyle(color: white))),
+                            ],
+                            rows: List<DataRow>.generate(
+                              categoryData.length,
+                                  (index) => DataRow(cells: [
+                                DataCell(Text(categoryData[index]['id']!, style: TextStyle(color: white))),
+                                DataCell(Text(categoryData[index]['name']!, style: TextStyle(color: white))),
+                                DataCell(Row(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text('Edit'),
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                        foregroundColor: white,
+                                        backgroundColor: Colors.blueAccent.withOpacity(0.7),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text('Delete'),
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                                      foregroundColor: white,
-                                      backgroundColor: Colors.red.withOpacity(0.7), // Red for delete button
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                    SizedBox(width: 10),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text('Delete'),
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                        foregroundColor: white,
+                                        backgroundColor: Colors.red.withOpacity(0.7), // Red for delete button
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              )),
-                            ]),
+                                  ],
+                                )),
+                              ]),
+                            ),
                           ),
                         ),
                       ),
