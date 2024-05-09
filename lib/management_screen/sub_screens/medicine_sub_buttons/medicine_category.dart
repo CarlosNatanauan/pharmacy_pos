@@ -24,14 +24,22 @@ class _MedicineCategoryState extends State<MedicineCategory> {
     _searchText = '';
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
+
+
 
     List<Category> filteredCategories = categoryProvider.categories
         .where((category) =>
         category.name.toLowerCase().contains(_searchText.toLowerCase()))
         .toList();
+
+    void deleteCategory(Category category) {
+      categoryProvider.deleteCategory(category);
+    }
 
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
@@ -208,8 +216,43 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                       ),
                                     ),
                                     SizedBox(width: 10),
+
+
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                "Confirm Deletion",
+                                                style: TextStyle(color: white, fontSize: 20),
+                                              ),
+                                              content: Text(
+                                                "Are you sure you want to delete this category?",
+                                                style: TextStyle(color: white),
+                                              ),
+                                              backgroundColor: scaffoldBackgroundColor,
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop(); // Close the dialog
+                                                  },
+                                                  child: Text("Cancel", style: TextStyle(color: white)),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    deleteCategory(category); // Delete the category
+                                                    Navigator.of(context).pop(); // Close the dialog
+                                                  },
+                                                  child: Text("Delete", style: TextStyle(color: Colors.red.withOpacity(0.7))),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+
+                                      },
                                       child: Text('Delete'),
                                       style: ElevatedButton.styleFrom(
                                         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -220,6 +263,9 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                         ),
                                       ),
                                     ),
+
+
+
                                   ],
                                 )),
                               ]);
@@ -237,4 +283,6 @@ class _MedicineCategoryState extends State<MedicineCategory> {
       ),
     );
   }
+
+
 }

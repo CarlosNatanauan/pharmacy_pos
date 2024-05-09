@@ -11,4 +11,9 @@ class CategoryProvider extends ChangeNotifier {
     _categories.add(category);
     notifyListeners();
   }
+
+  void deleteCategory(Category category) {
+    _categories.remove(category);
+    notifyListeners();
+  }
 }
