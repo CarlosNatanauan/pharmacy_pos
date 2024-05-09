@@ -16,10 +16,22 @@ class MedicineCategory extends StatefulWidget {
 
 class _MedicineCategoryState extends State<MedicineCategory> {
   final TextEditingController _categoryController = TextEditingController();
+  late String _searchText;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchText = '';
+  }
 
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
+
+    List<Category> filteredCategories = categoryProvider.categories
+        .where((category) =>
+        category.name.toLowerCase().contains(_searchText.toLowerCase()))
+        .toList();
 
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
@@ -56,11 +68,7 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Text(
-                    'Category Name',
-                    style: TextStyle(color: white),
-                  ),
-                  SizedBox(height: 10),
+
                   TextFormField(
                     controller: _categoryController,
                     style: TextStyle(color: white),
@@ -98,7 +106,7 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {},
-                        child: Text('Cancel'),
+                        child: Text('Clear'),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                           foregroundColor: white,
@@ -144,12 +152,17 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     SizedBox(height: 20),
                     Row(
                       children: [
-
+                        //add sort option later in here
                         Spacer(), // Spacer to push search bar to the rightmost
                         // Container for search bar
                         Container(
                           width: 200, // Increased width of the search box
                           child: TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _searchText = value;
+                              });
+                            },
                             style: TextStyle(color: white),
                             decoration: InputDecoration(
                               hintText: 'Search category',
@@ -176,7 +189,7 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                               DataColumn(label: Text('Name', style: TextStyle(color: white))),
                               DataColumn(label: Text('Action', style: TextStyle(color: white))),
                             ],
-                            rows: categoryProvider.categories.map((category) {
+                            rows: filteredCategories.map((category) {
                               return DataRow(cells: [
                                 DataCell(Text(category.id, style: TextStyle(color: white))),
                                 DataCell(Text(category.name, style: TextStyle(color: white))),
