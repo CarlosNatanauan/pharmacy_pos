@@ -24,14 +24,67 @@ class _MedicineCategoryState extends State<MedicineCategory> {
     _searchText = '';
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
+
+
 
     List<Category> filteredCategories = categoryProvider.categories
         .where((category) =>
         category.name.toLowerCase().contains(_searchText.toLowerCase()))
         .toList();
+
+    void deleteCategory(Category category) {
+      categoryProvider.deleteCategory(category);
+    }
+
+    void _showEditPrompt(Category category) {
+      TextEditingController _editController = TextEditingController(text: category.name);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Edit Category",
+              style: TextStyle(color: white, fontSize: 20),
+            ),
+            content: TextFormField(
+              controller: _editController,
+              style: TextStyle(color: white),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: containerColor,
+                hintText: 'Enter new category name',
+                hintStyle: TextStyle(color: white.withOpacity(0.5)),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            backgroundColor: scaffoldBackgroundColor,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text("Cancel", style: TextStyle(color: white)),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Update the category name
+                  categoryProvider.updateCategory(category, _editController.text);
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text("Save", style: TextStyle(color: Colors.green)),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+
 
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
@@ -105,7 +158,9 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       ),
                       SizedBox(width: 10),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _categoryController.clear();
+                        },
                         child: Text('Clear'),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -195,8 +250,12 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                 DataCell(Text(category.name, style: TextStyle(color: white))),
                                 DataCell(Row(
                                   children: [
+
+
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _showEditPrompt(category);
+                                      },
                                       child: Text('Edit'),
                                       style: ElevatedButton.styleFrom(
                                         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -207,9 +266,47 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                         ),
                                       ),
                                     ),
+
+
+
                                     SizedBox(width: 10),
+
+
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                "Confirm Deletion",
+                                                style: TextStyle(color: white, fontSize: 20),
+                                              ),
+                                              content: Text(
+                                                "Are you sure you want to delete this category?",
+                                                style: TextStyle(color: white),
+                                              ),
+                                              backgroundColor: scaffoldBackgroundColor,
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop(); // Close the dialog
+                                                  },
+                                                  child: Text("Cancel", style: TextStyle(color: white)),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    deleteCategory(category); // Delete the category
+                                                    Navigator.of(context).pop(); // Close the dialog
+                                                  },
+                                                  child: Text("Delete", style: TextStyle(color: Colors.red.withOpacity(0.7))),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+
+                                      },
                                       child: Text('Delete'),
                                       style: ElevatedButton.styleFrom(
                                         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -220,6 +317,9 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                         ),
                                       ),
                                     ),
+
+
+
                                   ],
                                 )),
                               ]);
@@ -237,4 +337,6 @@ class _MedicineCategoryState extends State<MedicineCategory> {
       ),
     );
   }
+
+
 }

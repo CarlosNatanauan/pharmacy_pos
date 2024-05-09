@@ -11,4 +11,20 @@ class CategoryProvider extends ChangeNotifier {
     _categories.add(category);
     notifyListeners();
   }
+
+  void deleteCategory(Category category) {
+    _categories.remove(category);
+    notifyListeners();
+  }
+
+  void updateCategory(Category category, String newName) {
+    // Find the index of the category in the list
+    final index = _categories.indexOf(category);
+    if (index != -1) {
+      // Update the category name
+      _categories[index].name = newName;
+      notifyListeners();
+    }
+  }
+
 }
