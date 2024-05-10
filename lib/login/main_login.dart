@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'globals.dart'; // Import globals.dart file
+import 'globals.dart';
 import '../management_screen/main_man_screen.dart';
 import '../pos_screen/main_pos_screen.dart';
 
-// Define the color scheme
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
 const scaffoldBackgroundColor = Color(0xFF464667);
@@ -20,76 +19,133 @@ class MainLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
-      body: Center(
-        child: Container(
-          width: 300, // Set container width as needed
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: canvasColor,
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 10.0,
-                offset: Offset(0, 5),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
+              color: accentCanvasColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/pharmacy.png',
+                    height: 350,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Nucleio PharmaNode',
+                    style: TextStyle(fontSize: 40, color: Color(0xFFD2CEFF), fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Form(
-            onWillPop: () async => false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Welcome Card
-
-                TextFormField(
-                  controller: usernameController,
-                  decoration: InputDecoration(
-                    hintText: 'Username',
-                    hintStyle: TextStyle(color: white),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: white),
-                    ),
-                  ),
-                  style: TextStyle(color: white),
-                  onFieldSubmitted: (_) => _submitForm(context),
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    hintStyle: TextStyle(color: white),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: white),
-                    ),
-                  ),
-                  style: TextStyle(color: white),
-                  obscureText: true,
-                  onFieldSubmitted: (_) => _submitForm(context),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () => _submitForm(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                  child: Text(
-                    'Login',
-                    style: TextStyle(fontSize: 16, color: white),
-                  ),
-                ),
-              ],
             ),
           ),
-        ),
+
+
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(130.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Hello! Let\'s get started',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: white,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+
+                      ],
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      width: 300,
+                      padding: EdgeInsets.all(20.0),
+                      decoration: BoxDecoration(
+                        color: canvasColor,
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 10.0,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Form(
+                        onWillPop: () async => false,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextFormField(
+                              controller: usernameController,
+                              decoration: InputDecoration(
+                                hintText: 'Username',
+                                hintStyle: TextStyle(color: white),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: white),
+                                ),
+                              ),
+                              style: TextStyle(color: white),
+                              onFieldSubmitted: (_) => _submitForm(context),
+                            ),
+                            SizedBox(height: 20),
+                            TextFormField(
+                              controller: passwordController,
+                              decoration: InputDecoration(
+                                hintText: 'Password',
+                                hintStyle: TextStyle(color: white),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: white),
+                                ),
+                              ),
+                              style: TextStyle(color: white),
+                              obscureText: true,
+                              onFieldSubmitted: (_) => _submitForm(context),
+                            ),
+                            SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () => _submitForm(context),
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: white,
+                                backgroundColor: primaryColor,
+                                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(
+                                'Login',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+
+
+
+        ],
       ),
     );
   }
+
+
 
   void _submitForm(BuildContext context) {
     final username = usernameController.text;
