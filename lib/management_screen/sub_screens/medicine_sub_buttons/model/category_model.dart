@@ -1,5 +1,3 @@
-// category_model.dart
-
 class Category {
    String id;
    String name;

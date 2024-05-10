@@ -32,56 +32,59 @@ class ActivityLogs extends StatelessWidget {
               ],
             ),
             child: SingleChildScrollView(
-              child: DataTable(
-                dividerThickness: 2,
-                headingRowHeight: 40,
-                dataRowHeight: 60,
-                columns: [
-                  DataColumn(
-                    label: Padding(
-                      padding: EdgeInsets.only(top: 8), // Add padding on top
-                      child: Text(
-                        'User',
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: DataTable(
+                  dividerThickness: 2,
+                  headingRowHeight: 40,
+                  dataRowHeight: 60,
+                  columns: [
+                    DataColumn(
+                      label: Padding(
+                        padding: EdgeInsets.only(top: 8), // Add padding on top
+                        child: Text(
+                          'User',
+                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Padding(
-                      padding: EdgeInsets.only(top: 8), // Add padding on top
-                      child: Text(
-                        'Date',
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                    DataColumn(
+                      label: Padding(
+                        padding: EdgeInsets.only(top: 8), // Add padding on top
+                        child: Text(
+                          'Date',
+                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Padding(
-                      padding: EdgeInsets.only(top: 8), // Add padding on top
-                      child: Text(
-                        'Time',
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                    DataColumn(
+                      label: Padding(
+                        padding: EdgeInsets.only(top: 8), // Add padding on top
+                        child: Text(
+                          'Time',
+                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Padding(
-                      padding: EdgeInsets.only(top: 8), // Add padding on top
-                      child: Text(
-                        'Activity Type',
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                    DataColumn(
+                      label: Padding(
+                        padding: EdgeInsets.only(top: 8), // Add padding on top
+                        child: Text(
+                          'Activity Type',
+                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-                rows: rowData.map((data) {
-                  return DataRow(cells: data.map((cellData) {
-                    return DataCell(Text(
-                      cellData,
-                      style: TextStyle(color: Colors.white),
-                    ));
-                  }).toList());
-                }).toList(),
+                  ],
+                  rows: rowData.map((data) {
+                    return DataRow(cells: data.map((cellData) {
+                      return DataCell(Text(
+                        cellData,
+                        style: TextStyle(color: Colors.white),
+                      ));
+                    }).toList());
+                  }).toList(),
+                ),
               ),
             ),
           ),
