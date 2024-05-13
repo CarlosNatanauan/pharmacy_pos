@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'login/main_login.dart';
 import 'management_screen/sub_screens/medicine_sub_buttons/provider/category_provider.dart';
+import 'management_screen/sub_screens/medicine_sub_buttons/provider/medicine_list_provider.dart';
 import 'management_screen/sub_screens/medicine_sub_buttons/provider/type_provider.dart';
 import 'management_screen/sub_screens/user_sub_buttons/model/user_provider.dart'; // Importing main_login.dart
 
@@ -15,6 +16,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => MedicineTypeProvider()),// Add CategoryProvider here
+        ChangeNotifierProvider(create: (context) => MedicineProvider()),
         // Add more providers if needed
       ],
       child: MyApp(),
