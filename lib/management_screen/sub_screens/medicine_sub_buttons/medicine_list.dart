@@ -130,29 +130,37 @@ class _MedicineListState extends State<MedicineList> {
                   ),
                   SizedBox(height: 20),
                   Center(
-                    child: InkWell(
-                      onTap: _pickImage, // Launch the image picker on tap
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          _image == null
-                              ? Icon(Icons.camera_alt, size: 40, color: Colors.white)
-                              : Image.file(
-                            File(_image!.path),
-                            height: 90,
-                            width: 90,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            _image == null ? 'Click to select image' : 'Click to change image',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: containerColor,
+                      ),
+                      padding: EdgeInsets.all(20),
+                      child: InkWell(
+                        onTap: _pickImage, // Launch the image picker on tap
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            _image == null
+                                ? Icon(Icons.camera_alt, size: 40, color: Colors.white)
+                                : Image.file(
+                              File(_image!.path),
+                              height: 90,
+                              width: 90,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              _image == null ? 'Click to select image' : 'Click to change image',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
+
                   SizedBox(height: 20),
                   TextFormField(
                     controller: _medicineController,
@@ -310,9 +318,9 @@ class _MedicineListState extends State<MedicineList> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text('Name: ${medicine.name}',
-                                                style: TextStyle(color: white)),
                                             Text('SKU: ${medicine.sku}',
+                                                style: TextStyle(color: white)),
+                                            Text('Name: ${medicine.name}',
                                                 style: TextStyle(color: white)),
                                             Text('Category: ${medicine.category}',
                                                 style: TextStyle(color: white)),
