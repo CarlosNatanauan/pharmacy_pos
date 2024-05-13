@@ -1,7 +1,7 @@
 class Medicine {
   String id;
   String name;
-  String sku; // Removed 'final' as these fields should not be final if they can be null
+  String sku;
   String category;
   String type;
   String measurement;
