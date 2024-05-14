@@ -306,7 +306,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                             foregroundColor: white,
-                            backgroundColor: primaryColor,
+                            backgroundColor: Colors.green.withOpacity(0.7),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),

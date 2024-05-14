@@ -57,6 +57,9 @@ class _ProductDataState extends State<ProductData> {
           'Edit Medicine Info',
           style: TextStyle(color: white),
         ),
+        iconTheme: IconThemeData(
+          color: white, // Set icon color to white
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -340,13 +343,13 @@ class _ProductDataState extends State<ProductData> {
                               ElevatedButton(
                                 onPressed: (){},
                                 child: Text(
-                                  'Save',
+                                  'Clear',
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                                   foregroundColor: white,
-                                  backgroundColor: primaryColor,
+                                  backgroundColor: Colors.red.withOpacity(0.7),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -358,13 +361,13 @@ class _ProductDataState extends State<ProductData> {
 
                                 },
                                 child: Text(
-                                  'Clear',
+                                  'Save',
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                                   foregroundColor: white,
-                                  backgroundColor: Colors.red.withOpacity(0.7), // Choose a color for clear button
+                                  backgroundColor: Colors.green.withOpacity(0.7), // Choose a color for clear button
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
