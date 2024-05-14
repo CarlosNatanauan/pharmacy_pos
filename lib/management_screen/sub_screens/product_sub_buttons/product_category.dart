@@ -138,6 +138,24 @@ class _ProductCategoryState extends State<ProductCategory> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+
+
+
+                      ElevatedButton(
+                        onPressed: () {
+                          _categoryController.clear();
+                        },
+                        child: Text('Clear'),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                          foregroundColor: white,
+                          backgroundColor: Colors.red.withOpacity(0.7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
                           final category = Category(
@@ -151,22 +169,7 @@ class _ProductCategoryState extends State<ProductCategory> {
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                           foregroundColor: white,
-                          backgroundColor: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          _categoryController.clear();
-                        },
-                        child: Text('Clear'),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                          foregroundColor: white,
-                          backgroundColor: Colors.red.withOpacity(0.7),
+                          backgroundColor: Colors.green.withOpacity(0.7),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

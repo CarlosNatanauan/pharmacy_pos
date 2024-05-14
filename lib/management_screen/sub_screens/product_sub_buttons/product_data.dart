@@ -54,8 +54,11 @@ class _ProductDataState extends State<ProductData> {
       appBar: AppBar(
         backgroundColor: canvasColor,
         title: Text(
-          'Edit Medicine Info',
+          'Edit Product Info',
           style: TextStyle(color: white),
+        ),
+        iconTheme: IconThemeData(
+          color: white, // Set icon color to white
         ),
       ),
       body: SingleChildScrollView(
@@ -340,13 +343,13 @@ class _ProductDataState extends State<ProductData> {
                               ElevatedButton(
                                 onPressed: (){},
                                 child: Text(
-                                  'Save',
+                                  'Clear',
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                                   foregroundColor: white,
-                                  backgroundColor: primaryColor,
+                                  backgroundColor: Colors.red.withOpacity(0.7),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -358,13 +361,13 @@ class _ProductDataState extends State<ProductData> {
 
                                 },
                                 child: Text(
-                                  'Clear',
+                                  'Save',
                                   style: TextStyle(fontSize: 18),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                                   foregroundColor: white,
-                                  backgroundColor: Colors.red.withOpacity(0.7), // Choose a color for clear button
+                                  backgroundColor: Colors.green.withOpacity(0.7), // Choose a color for clear button
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -399,7 +402,7 @@ class _ProductDataState extends State<ProductData> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    DateTime? selectedDate = _selectedDate; // Change to nullable DateTime type
+    DateTime? selectedDate = _selectedDate;
     var results = await showCalendarDatePicker2Dialog(
       context: context,
       config: CalendarDatePicker2WithActionButtonsConfig(
@@ -409,9 +412,9 @@ class _ProductDataState extends State<ProductData> {
         controlsTextStyle: TextStyle(color: primaryColor),
         cancelButtonTextStyle: TextStyle(color: Colors.red.withOpacity(0.7)),
         okButtonTextStyle: TextStyle(color: Colors.green.withOpacity(0.7)),
-        weekdayLabelTextStyle: TextStyle(color: primaryColor), // Change weekday label color to white
-        monthTextStyle: TextStyle(color: white), // Color for month
-        yearTextStyle: TextStyle(color: white), // Color for year
+        weekdayLabelTextStyle: TextStyle(color: primaryColor),
+        monthTextStyle: TextStyle(color: white),
+        yearTextStyle: TextStyle(color: white),
       ),
       dialogSize: const Size(325, 400),
       value: [selectedDate],

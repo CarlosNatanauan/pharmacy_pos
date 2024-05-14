@@ -88,7 +88,7 @@ class _ProductListState extends State<ProductList> {
                       product, _editController.text);
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text("Save", style: TextStyle(color: Colors.green)),
+                child: Text("Save", style: TextStyle(color: primaryColor)),
               ),
             ],
           );
@@ -180,6 +180,22 @@ class _ProductListState extends State<ProductList> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+
+                      ElevatedButton(
+                        onPressed: () {
+                          _productController.clear();
+                        },
+                        child: Text('Clear'),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                          foregroundColor: white,
+                          backgroundColor: Colors.red.withOpacity(0.7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
                           // Navigate to the EditMedicineInfoScreen with the entered product name and optional image
@@ -198,28 +214,15 @@ class _ProductListState extends State<ProductList> {
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                           foregroundColor: white,
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.green.withOpacity(0.7),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                       ),
 
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          _productController.clear();
-                        },
-                        child: Text('Clear'),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                          foregroundColor: white,
-                          backgroundColor: Colors.red.withOpacity(0.7),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
+
+
                     ],
                   ),
                 ],
