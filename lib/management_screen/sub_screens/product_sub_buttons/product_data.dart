@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
@@ -31,6 +33,11 @@ class _ProductDataState extends State<ProductData> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
+
+
+  String get formattedDate {
+    return DateFormat.yMd().format(_selectedDate); // Format the date as 'MM/dd/yyyy'
+  }
 
   @override
   void initState() {
@@ -62,7 +69,7 @@ class _ProductDataState extends State<ProductData> {
               color: canvasColor,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.white.withOpacity(0.2),
                   blurRadius: 5,
                   offset: Offset(0, 3),
                 ),
@@ -81,36 +88,38 @@ class _ProductDataState extends State<ProductData> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          InkWell(
-                            onTap: _pickImage,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: containerColor,
-                              ),
-                              padding: EdgeInsets.all(20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  _image == null
-                                      ? Icon(Icons.camera_alt, size: 40, color: white)
-                                      : Image.file(
-                                    File(_image!.path),
-                                    height: 90,
-                                    width: 90,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    _image == null ? 'Click to select image' : 'Click to change image',
-                                    style: TextStyle(color: white),
-                                  ),
-                                ],
+                          Center(
+                            child: InkWell(
+                              onTap: _pickImage,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: containerColor,
+                                ),
+                                padding: EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    _image == null
+                                        ? Icon(Icons.camera_alt, size: 40, color: white)
+                                        : Image.file(
+                                      File(_image!.path),
+                                      height: 70,
+                                      width: 70,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      _image == null ? 'Click to select image' : 'Click to change image',
+                                      style: TextStyle(color: white),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+
                           TextFormField(
                             controller: _skuController,
                             decoration: InputDecoration(
@@ -248,7 +257,10 @@ class _ProductDataState extends State<ProductData> {
                                 .map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value),
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: white), // Set text color to white
+                                ),
                               );
                             }).toList(),
                             onChanged: (String? value) {
@@ -280,7 +292,10 @@ class _ProductDataState extends State<ProductData> {
                                 .map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value),
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: white), // Set text color to white
+                                ),
                               );
                             }).toList(),
                             onChanged: (String? value) {
@@ -296,9 +311,11 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 30),
+
+
                           Text(
-                            'Product Date',
+                            'Expiration Date',
                             style: TextStyle(color: white),
                           ),
                           SizedBox(height: 10),
@@ -307,21 +324,55 @@ class _ProductDataState extends State<ProductData> {
                               _selectDate(context);
                             },
                             child: Text(
-                              _selectedDate.toString(),
-                              style: TextStyle(color: white),
+                                formattedDate,
+                              style: TextStyle(color: white, fontSize: 17),
                             ),
                           ),
 
-                          SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Save',
-                              style: TextStyle(color: white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor,
-                            ),
+                          SizedBox(height: 75),
+
+
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+
+                              ElevatedButton(
+                                onPressed: (){},
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                                  foregroundColor: white,
+                                  backgroundColor: primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              ElevatedButton(
+                                onPressed: () {
+
+                                },
+                                child: Text(
+                                  'Clear',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                                  foregroundColor: white,
+                                  backgroundColor: Colors.red.withOpacity(0.7), // Choose a color for clear button
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              ),
+                              // Add space between buttons
+
+                            ],
                           ),
 
                         ],
@@ -348,15 +399,30 @@ class _ProductDataState extends State<ProductData> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
+    DateTime? selectedDate = _selectedDate; // Change to nullable DateTime type
+    var results = await showCalendarDatePicker2Dialog(
       context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2101),
+      config: CalendarDatePicker2WithActionButtonsConfig(
+        dayTextStyle: TextStyle(color: Colors.white),
+        todayTextStyle: TextStyle(color: white),
+        selectedDayHighlightColor: Colors.lightBlue.withOpacity(0.5),
+        controlsTextStyle: TextStyle(color: primaryColor),
+        cancelButtonTextStyle: TextStyle(color: Colors.red.withOpacity(0.7)),
+        okButtonTextStyle: TextStyle(color: Colors.green.withOpacity(0.7)),
+        weekdayLabelTextStyle: TextStyle(color: primaryColor), // Change weekday label color to white
+        monthTextStyle: TextStyle(color: white), // Color for month
+        yearTextStyle: TextStyle(color: white), // Color for year
+      ),
+      dialogSize: const Size(325, 400),
+      value: [selectedDate],
+      borderRadius: BorderRadius.circular(15),
     );
-    if (pickedDate != null && pickedDate != _selectedDate)
+    if (results != null && results.isNotEmpty) {
       setState(() {
-        _selectedDate = pickedDate;
+        _selectedDate = results[0]!;
       });
+    }
   }
+
+
 }
