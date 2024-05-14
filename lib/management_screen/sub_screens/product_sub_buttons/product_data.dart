@@ -152,16 +152,87 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
+
+
+                          SizedBox(height: 20),
+
+                          TextFormField(
+                            controller: _descriptionController,
+                            decoration: InputDecoration(
+                              labelText: 'Product Description',
+                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white.withOpacity(0.3)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white),
+                              ),
+                            ),
+                            style: TextStyle(color: white),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter description';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            controller: _measurementController,
+                            decoration: InputDecoration(
+                              labelText: 'Product Measurement',
+                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white.withOpacity(0.3)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white),
+                              ),
+                            ),
+                            style: TextStyle(color: white),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter measurement';
+                              }
+                              return null;
+                            },
+                          ),
+
+
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 30),
                     // Middle Column
                     Expanded(
                       flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+
+                          SizedBox(height: 20),
+                          TextFormField(
+                            controller: _priceController,
+                            decoration: InputDecoration(
+                              labelText: 'Product Price',
+                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white.withOpacity(0.3)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white),
+                              ),
+                            ),
+                            style: TextStyle(color: white),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter price';
+                              }
+                              return null;
+                            },
+                          ),
+
+                          SizedBox(height: 20),
                           DropdownButtonFormField<String>(
                             decoration: InputDecoration(
                               labelText: 'Product Type',
@@ -240,78 +311,7 @@ class _ProductDataState extends State<ProductData> {
                               style: TextStyle(color: white),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                    // Right Column
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TextFormField(
-                            controller: _descriptionController,
-                            decoration: InputDecoration(
-                              labelText: 'Product Description',
-                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white.withOpacity(0.3)),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white),
-                              ),
-                            ),
-                            style: TextStyle(color: white),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter description';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          TextFormField(
-                            controller: _measurementController,
-                            decoration: InputDecoration(
-                              labelText: 'Product Measurement',
-                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white.withOpacity(0.3)),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white),
-                              ),
-                            ),
-                            style: TextStyle(color: white),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter measurement';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 20),
-                          TextFormField(
-                            controller: _priceController,
-                            decoration: InputDecoration(
-                              labelText: 'Product Price',
-                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white.withOpacity(0.3)),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white),
-                              ),
-                            ),
-                            style: TextStyle(color: white),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter price';
-                              }
-                              return null;
-                            },
-                          ),
+
                           SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () {},
@@ -323,9 +323,13 @@ class _ProductDataState extends State<ProductData> {
                               backgroundColor: primaryColor,
                             ),
                           ),
+
                         ],
                       ),
                     ),
+                    SizedBox(width: 20),
+                    // Right Column
+
                   ],
                 ),
               ),
