@@ -1,4 +1,4 @@
-class Medicine {
+class Product {
   String id;
   String name;
   String sku;
@@ -8,7 +8,7 @@ class Medicine {
   String description;
   double productPrice;
 
-  Medicine({
+  Product({
     required this.id,
     required this.name,
     this.sku = '123151269',

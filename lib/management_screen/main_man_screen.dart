@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/dashboard.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/operations.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/medicine.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/entities.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -31,7 +31,7 @@ class MainManagementScreen extends StatelessWidget {
   // Mapping between sidebar titles and corresponding screen widgets
   final Map<String, Widget> _screens = {
     'Dashboard': Dashboard(),
-    'Medicine': Medicine(),
+    'Product': Product(),
     'Operations': Operations(),
     'Entities': Entities(),
     'Users': Users(),
@@ -188,7 +188,7 @@ class ExampleSidebarX extends StatelessWidget {
         ),
         const SidebarXItem(
           icon: Icons.local_hospital_rounded,
-          label: 'Medicine',
+          label: 'Product',
         ),
         const SidebarXItem(
           icon: Icons.business,
@@ -326,7 +326,7 @@ String _getTitleByIndex(int index) {
     case 0:
       return 'Dashboard';
     case 1:
-      return 'Medicine';
+      return 'Product';
     case 2:
       return 'Operations';
     case 3:

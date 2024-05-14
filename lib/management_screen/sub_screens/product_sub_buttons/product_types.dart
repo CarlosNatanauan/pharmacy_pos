@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/medicine_sub_buttons/model/category_model.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/medicine_sub_buttons/provider/category_provider.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/type_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'model/type_model.dart';
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
@@ -9,13 +10,13 @@ const scaffoldBackgroundColor = Color(0xFF464667);
 const containerColor = Color(0xFF353550);
 const white = Colors.white;
 
-class MedicineCategory extends StatefulWidget {
+class ProductTypes extends StatefulWidget {
   @override
-  _MedicineCategoryState createState() => _MedicineCategoryState();
+  _ProductTypesState createState() => _ProductTypesState();
 }
 
-class _MedicineCategoryState extends State<MedicineCategory> {
-  final TextEditingController _categoryController = TextEditingController();
+class _ProductTypesState extends State<ProductTypes> {
+  final TextEditingController _typeController = TextEditingController();
   late String _searchText;
 
   @override
@@ -24,31 +25,28 @@ class _MedicineCategoryState extends State<MedicineCategory> {
     _searchText = '';
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
+    final typeProvider = Provider.of<ProductTypeProvider>(context);
 
-
-
-    List<Category> filteredCategories = categoryProvider.categories
-        .where((category) =>
-        category.name.toLowerCase().contains(_searchText.toLowerCase()))
+    List<ProductType> filteredTypes = typeProvider.types
+        .where((type) =>
+        type.name.toLowerCase().contains(_searchText.toLowerCase()))
         .toList();
 
-    void deleteCategory(Category category) {
-      categoryProvider.deleteCategory(category);
+    void deleteType(ProductType type) {
+      typeProvider.deleteType(type);
     }
 
-    void _showEditPrompt(Category category) {
-      TextEditingController _editController = TextEditingController(text: category.name);
+    void _showEditPrompt(ProductType type) {
+      TextEditingController _editController =
+      TextEditingController(text: type.name);
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "Edit Category",
+              "Edit Type",
               style: TextStyle(color: white, fontSize: 20),
             ),
             content: TextFormField(
@@ -57,7 +55,7 @@ class _MedicineCategoryState extends State<MedicineCategory> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: containerColor,
-                hintText: 'Enter new category name',
+                hintText: 'Enter new type name',
                 hintStyle: TextStyle(color: white.withOpacity(0.5)),
                 border: OutlineInputBorder(),
               ),
@@ -72,8 +70,8 @@ class _MedicineCategoryState extends State<MedicineCategory> {
               ),
               TextButton(
                 onPressed: () {
-                  // Update the category name
-                  categoryProvider.updateCategory(category, _editController.text);
+                  // Update the type name
+                  typeProvider.updateType(type, _editController.text);
                   Navigator.of(context).pop(); // Close the dialog
                 },
                 child: Text("Save", style: TextStyle(color: Colors.green)),
@@ -83,8 +81,6 @@ class _MedicineCategoryState extends State<MedicineCategory> {
         },
       );
     }
-
-
 
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
@@ -113,7 +109,7 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Medicine Category',
+                    'Product Type',
                     style: TextStyle(
                       color: white,
                       fontSize: 20,
@@ -121,15 +117,14 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     ),
                   ),
                   SizedBox(height: 20),
-
                   TextFormField(
-                    controller: _categoryController,
+                    controller: _typeController,
                     style: TextStyle(color: white),
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: containerColor,
-                      hintText: 'Enter category name', // Adding hint text
-                      hintStyle: TextStyle(color: white.withOpacity(0.5)), // Hint text color
+                      hintText: 'Enter type name',
+                      hintStyle: TextStyle(color: white.withOpacity(0.5)),
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -139,16 +134,17 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          final category = Category(
+                          final type = ProductType(
                             id: '1', // Default ID
-                            name: _categoryController.text,
+                            name: _typeController.text,
                           );
-                          categoryProvider.addCategory(category);
-                          _categoryController.clear();
+                          typeProvider.addType(type);
+                          _typeController.clear();
                         },
                         child: Text('Save'),
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                          padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                           foregroundColor: white,
                           backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
@@ -159,11 +155,12 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
-                          _categoryController.clear();
+                          _typeController.clear();
                         },
                         child: Text('Clear'),
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                          padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                           foregroundColor: white,
                           backgroundColor: Colors.red.withOpacity(0.7),
                           shape: RoundedRectangleBorder(
@@ -197,7 +194,7 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Category List',
+                      'Type List',
                       style: TextStyle(
                         color: white,
                         fontSize: 20,
@@ -207,11 +204,9 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        //add sort option later in here
-                        Spacer(), // Spacer to push search bar to the rightmost
-                        // Container for search bar
+                        Spacer(),
                         Container(
-                          width: 200, // Increased width of the search box
+                          width: 200,
                           child: TextFormField(
                             onChanged: (value) {
                               setState(() {
@@ -220,12 +215,14 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                             },
                             style: TextStyle(color: white),
                             decoration: InputDecoration(
-                              hintText: 'Search category',
-                              hintStyle: TextStyle(color: white.withOpacity(0.5)), // Set hint text color to white
+                              hintText: 'Search type',
+                              hintStyle:
+                              TextStyle(color: white.withOpacity(0.5)),
                               filled: true,
                               fillColor: containerColor,
                               border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12), // Adjust horizontal padding
+                              contentPadding:
+                              EdgeInsets.symmetric(horizontal: 12),
                             ),
                           ),
                         ),
@@ -236,42 +233,46 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.52, // Match the width of the container
+                          width: MediaQuery.of(context).size.width * 0.52,
                           child: DataTable(
-                            columnSpacing: 20, // Adjust column spacing as needed
+                            columnSpacing: 20,
                             columns: [
-                              DataColumn(label: Text('ID', style: TextStyle(color: white))),
-                              DataColumn(label: Text('Name', style: TextStyle(color: white))),
-                              DataColumn(label: Text('Action', style: TextStyle(color: white))),
+                              DataColumn(
+                                  label: Text('ID',
+                                      style: TextStyle(color: white))),
+                              DataColumn(
+                                  label: Text('Name',
+                                      style: TextStyle(color: white))),
+                              DataColumn(
+                                  label: Text('Action',
+                                      style: TextStyle(color: white))),
                             ],
-                            rows: filteredCategories.map((category) {
+                            rows: filteredTypes.map((type) {
                               return DataRow(cells: [
-                                DataCell(Text(category.id, style: TextStyle(color: white))),
-                                DataCell(Text(category.name, style: TextStyle(color: white))),
+                                DataCell(Text(type.id,
+                                    style: TextStyle(color: white))),
+                                DataCell(Text(type.name,
+                                    style: TextStyle(color: white))),
                                 DataCell(Row(
                                   children: [
-
-
                                     ElevatedButton(
                                       onPressed: () {
-                                        _showEditPrompt(category);
+                                        _showEditPrompt(type);
                                       },
                                       child: Text('Edit'),
                                       style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 12),
                                         foregroundColor: white,
-                                        backgroundColor: Colors.blueAccent.withOpacity(0.7),
+                                        backgroundColor:
+                                        Colors.blueAccent.withOpacity(0.7),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                          BorderRadius.circular(8),
                                         ),
                                       ),
                                     ),
-
-
-
                                     SizedBox(width: 10),
-
-
                                     ElevatedButton(
                                       onPressed: () {
                                         showDialog(
@@ -280,46 +281,54 @@ class _MedicineCategoryState extends State<MedicineCategory> {
                                             return AlertDialog(
                                               title: Text(
                                                 "Confirm Deletion",
-                                                style: TextStyle(color: white, fontSize: 20),
+                                                style: TextStyle(
+                                                    color: white, fontSize: 20),
                                               ),
                                               content: Text(
-                                                "Are you sure you want to delete this category?",
+                                                "Are you sure you want to delete this type?",
                                                 style: TextStyle(color: white),
                                               ),
-                                              backgroundColor: scaffoldBackgroundColor,
+                                              backgroundColor:
+                                              scaffoldBackgroundColor,
                                               actions: [
                                                 TextButton(
                                                   onPressed: () {
-                                                    Navigator.of(context).pop(); // Close the dialog
+                                                    Navigator.of(context).pop();
                                                   },
-                                                  child: Text("Cancel", style: TextStyle(color: white)),
+                                                  child: Text(
+                                                      "Cancel",
+                                                      style: TextStyle(
+                                                          color: white)),
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    deleteCategory(category); // Delete the category
-                                                    Navigator.of(context).pop(); // Close the dialog
+                                                    deleteType(type);
+                                                    Navigator.of(context).pop();
                                                   },
-                                                  child: Text("Delete", style: TextStyle(color: Colors.red.withOpacity(0.7))),
+                                                  child: Text(
+                                                      "Delete",
+                                                      style: TextStyle(
+                                                          color: Colors.red
+                                                              .withOpacity(0.7))),
                                                 ),
                                               ],
                                             );
                                           },
                                         );
-
                                       },
                                       child: Text('Delete'),
                                       style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 12),
                                         foregroundColor: white,
-                                        backgroundColor: Colors.red.withOpacity(0.7), // Red for delete button
+                                        backgroundColor:
+                                        Colors.red.withOpacity(0.7),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                          BorderRadius.circular(8),
                                         ),
                                       ),
                                     ),
-
-
-
                                   ],
                                 )),
                               ]);
@@ -337,6 +346,5 @@ class _MedicineCategoryState extends State<MedicineCategory> {
       ),
     );
   }
-
-
 }
+
