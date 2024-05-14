@@ -54,7 +54,7 @@ class _ProductDataState extends State<ProductData> {
       appBar: AppBar(
         backgroundColor: canvasColor,
         title: Text(
-          'Edit Medicine Info',
+          'Edit Product Info',
           style: TextStyle(color: white),
         ),
         iconTheme: IconThemeData(
@@ -402,7 +402,7 @@ class _ProductDataState extends State<ProductData> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    DateTime? selectedDate = _selectedDate; // Change to nullable DateTime type
+    DateTime? selectedDate = _selectedDate;
     var results = await showCalendarDatePicker2Dialog(
       context: context,
       config: CalendarDatePicker2WithActionButtonsConfig(
@@ -412,9 +412,9 @@ class _ProductDataState extends State<ProductData> {
         controlsTextStyle: TextStyle(color: primaryColor),
         cancelButtonTextStyle: TextStyle(color: Colors.red.withOpacity(0.7)),
         okButtonTextStyle: TextStyle(color: Colors.green.withOpacity(0.7)),
-        weekdayLabelTextStyle: TextStyle(color: primaryColor), // Change weekday label color to white
-        monthTextStyle: TextStyle(color: white), // Color for month
-        yearTextStyle: TextStyle(color: white), // Color for year
+        weekdayLabelTextStyle: TextStyle(color: primaryColor),
+        monthTextStyle: TextStyle(color: white),
+        yearTextStyle: TextStyle(color: white),
       ),
       dialogSize: const Size(325, 400),
       value: [selectedDate],
