@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/medicine_sub_buttons/model/medicine_list_model.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/medicine_sub_buttons/provider/medicine_list_provider.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/product_list_provider.dart';
+
 import 'package:provider/provider.dart';
 
 const primaryColor = Color(0xFF685BFF);
@@ -12,13 +13,13 @@ const scaffoldBackgroundColor = Color(0xFF464667);
 const containerColor = Color(0xFF353550);
 const white = Colors.white;
 
-class MedicineList extends StatefulWidget {
+class ProductList extends StatefulWidget {
   @override
-  _MedicineListState createState() => _MedicineListState();
+  _ProductListState createState() => _ProductListState();
 }
 
-class _MedicineListState extends State<MedicineList> {
-  final TextEditingController _medicineController = TextEditingController();
+class _ProductListState extends State<ProductList> {
+  final TextEditingController _productController = TextEditingController();
   late String _searchText;
   XFile? _image;
 
@@ -38,26 +39,26 @@ class _MedicineListState extends State<MedicineList> {
 
   @override
   Widget build(BuildContext context) {
-    final medicineProvider = Provider.of<MedicineProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
 
-    List<Medicine> filteredMedicines = medicineProvider.medicines
-        .where((medicine) =>
-        medicine.name.toLowerCase().contains(_searchText.toLowerCase()))
+    List<Product> filteredProduct = productProvider.products
+        .where((product) =>
+        product.name.toLowerCase().contains(_searchText.toLowerCase()))
         .toList();
 
-    void deleteMedicine(Medicine medicine) {
-      medicineProvider.deleteMedicine(medicine);
+    void deleteProduct(Product product) {
+      productProvider.deleteProduct(product);
     }
 
-    void _showEditPrompt(Medicine medicine) {
+    void _showEditPrompt(Product product) {
       TextEditingController _editController =
-      TextEditingController(text: medicine.name);
+      TextEditingController(text: product.name);
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "Edit Medicine",
+              "Edit Product",
               style: TextStyle(color: white, fontSize: 20),
             ),
             content: TextFormField(
@@ -66,7 +67,7 @@ class _MedicineListState extends State<MedicineList> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: containerColor,
-                hintText: 'Enter new medicine name',
+                hintText: 'Enter new product name',
                 hintStyle: TextStyle(color: white.withOpacity(0.5)),
                 border: OutlineInputBorder(),
               ),
@@ -81,9 +82,9 @@ class _MedicineListState extends State<MedicineList> {
               ),
               TextButton(
                 onPressed: () {
-                  // Update the medicine name
-                  medicineProvider.updateMedicine(
-                      medicine, _editController.text);
+                  // Update the product name
+                  productProvider.updateProduct(
+                      product, _editController.text);
                   Navigator.of(context).pop(); // Close the dialog
                 },
                 child: Text("Save", style: TextStyle(color: Colors.green)),
@@ -121,7 +122,7 @@ class _MedicineListState extends State<MedicineList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Medicine',
+                    'Product',
                     style: TextStyle(
                       color: white,
                       fontSize: 20,
@@ -163,12 +164,12 @@ class _MedicineListState extends State<MedicineList> {
 
                   SizedBox(height: 20),
                   TextFormField(
-                    controller: _medicineController,
+                    controller: _productController,
                     style: TextStyle(color: white),
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: containerColor,
-                      hintText: 'Enter medicine name', // Adding hint text
+                      hintText: 'Enter product name', // Adding hint text
                       hintStyle: TextStyle(
                           color: white.withOpacity(0.5)), // Hint text color
                       border: OutlineInputBorder(),
@@ -180,12 +181,12 @@ class _MedicineListState extends State<MedicineList> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          final medicine = Medicine(
+                          final product = Product(
                             id: '1', // Default ID
-                            name: _medicineController.text,
+                            name: _productController.text,
                           );
-                          medicineProvider.addMedicine(medicine);
-                          _medicineController.clear();
+                          productProvider.addProduct(product);
+                          _productController.clear();
                         },
                         child: Text('Save'),
                         style: ElevatedButton.styleFrom(
@@ -200,7 +201,7 @@ class _MedicineListState extends State<MedicineList> {
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
-                          _medicineController.clear();
+                          _productController.clear();
                         },
                         child: Text('Clear'),
                         style: ElevatedButton.styleFrom(
@@ -244,7 +245,7 @@ class _MedicineListState extends State<MedicineList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Medicine List',
+                      'Product List',
                       style: TextStyle(
                         color: white,
                         fontSize: 20,
@@ -266,7 +267,7 @@ class _MedicineListState extends State<MedicineList> {
                             },
                             style: TextStyle(color: white),
                             decoration: InputDecoration(
-                              hintText: 'Search medicine',
+                              hintText: 'Search product',
                               hintStyle: TextStyle(
                                   color: white.withOpacity(0.5)), // Set hint text color to white
                               filled: true,
@@ -298,16 +299,16 @@ class _MedicineListState extends State<MedicineList> {
                                   label: Text('ID',
                                       style: TextStyle(color: white))),
                               DataColumn(
-                                  label: Text('Medicine Info',
+                                  label: Text('Product Info',
                                       style: TextStyle(color: white))),
                               DataColumn(
                                   label: Text('Action',
                                       style: TextStyle(color: white))),
                             ],
-                            rows: filteredMedicines.map((medicine) {
+                            rows: filteredProduct.map((product) {
                               return DataRow(cells: [
                                 DataCell(
-                                    Text(medicine.id,
+                                    Text(product.id,
                                         style: TextStyle(color: white))),
                                 DataCell(
                                   Flexible(
@@ -318,19 +319,19 @@ class _MedicineListState extends State<MedicineList> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text('SKU: ${medicine.sku}',
+                                            Text('SKU: ${product.sku}',
                                                 style: TextStyle(color: white)),
-                                            Text('Name: ${medicine.name}',
+                                            Text('Name: ${product.name}',
                                                 style: TextStyle(color: white)),
-                                            Text('Category: ${medicine.category}',
+                                            Text('Category: ${product.category}',
                                                 style: TextStyle(color: white)),
-                                            Text('Type: ${medicine.type}',
+                                            Text('Type: ${product.type}',
                                                 style: TextStyle(color: white)),
-                                            Text('Measurement: ${medicine.measurement}',
+                                            Text('Measurement: ${product.measurement}',
                                                 style: TextStyle(color: white)),
-                                            Text('Description: ${medicine.description}',
+                                            Text('Description: ${product.description}',
                                                 style: TextStyle(color: white)),
-                                            Text('Product Price: ${medicine.productPrice}',
+                                            Text('Product Price: ${product.productPrice}',
                                                 style: TextStyle(color: white)),
                                           ],
                                         ),
@@ -342,7 +343,7 @@ class _MedicineListState extends State<MedicineList> {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        _showEditPrompt(medicine);
+                                        _showEditPrompt(product);
                                       },
                                       child: Text('Edit'),
                                       style: ElevatedButton.styleFrom(
@@ -370,7 +371,7 @@ class _MedicineListState extends State<MedicineList> {
                                                     color: white, fontSize: 20),
                                               ),
                                               content: Text(
-                                                "Are you sure you want to delete this medicine?",
+                                                "Are you sure you want to delete this product?",
                                                 style: TextStyle(color: white),
                                               ),
                                               backgroundColor:
@@ -387,8 +388,8 @@ class _MedicineListState extends State<MedicineList> {
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    deleteMedicine(
-                                                        medicine);
+                                                    deleteProduct(
+                                                        product);
                                                     Navigator.of(context)
                                                         .pop();
                                                   },

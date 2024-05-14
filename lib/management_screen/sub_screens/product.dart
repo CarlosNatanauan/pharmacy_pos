@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'medicine_sub_buttons/expired_list.dart';
-import 'medicine_sub_buttons/medicine_category.dart';
-import 'medicine_sub_buttons/medicine_list.dart';
-import 'medicine_sub_buttons/medicine_types.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/expired_list.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/product_category.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/product_list.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/product_types.dart';
 
 
 
-class Medicine extends StatefulWidget {
+
+class Product extends StatefulWidget {
   @override
-  _MedicineState createState() => _MedicineState();
+  _ProductState createState() => _ProductState();
 }
 
-class _MedicineState extends State<Medicine> {
+class _ProductState extends State<Product> {
   int _selectedIndex = 0;
-  final List<String> _tabTitles = ['Medicine List', 'Medicine Category', 'Medicine Types',  'Expired List'];
+  final List<String> _tabTitles = ['Product List', 'Product Category', 'Product Types',  'Expired List'];
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +86,11 @@ class _MedicineState extends State<Medicine> {
   Widget _buildSelectedScreen(int index) {
     switch (index) {
       case 0:
-        return MedicineList();
+        return ProductList();
       case 1:
-        return MedicineCategory();
+        return ProductCategory();
       case 2:
-        return MedicineTypes();
+        return ProductTypes();
       case 3:
         return ExpiredList();
       default:

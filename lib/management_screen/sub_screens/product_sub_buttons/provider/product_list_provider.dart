@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/medicine_sub_buttons/model/medicine_list_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
 
 
-class MedicineProvider extends ChangeNotifier {
-  List<Medicine> _medicines = [];
+class ProductProvider extends ChangeNotifier {
+  List<Product> _medicines = [];
 
-  List<Medicine> get medicines => _medicines;
+  List<Product> get products => _medicines;
 
-  void addMedicine(Medicine medicine) {
+  void addProduct(Product medicine) {
     _medicines.add(medicine);
     notifyListeners();
   }
 
-  void deleteMedicine(Medicine medicine) {
+  void deleteProduct(Product medicine) {
     _medicines.remove(medicine);
     notifyListeners();
   }
 
-  void updateMedicine(Medicine medicine, String newName) {
+  void updateProduct(Product medicine, String newName) {
     // Find the index of the medicine in the list
     final index = _medicines.indexOf(medicine);
     if (index != -1) {
