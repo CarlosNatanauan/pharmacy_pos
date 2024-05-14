@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/product_data.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/product_list_provider.dart';
 
 import 'package:provider/provider.dart';
@@ -181,12 +182,17 @@ class _ProductListState extends State<ProductList> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          final product = Product(
-                            id: '1', // Default ID
-                            name: _productController.text,
+                          // Navigate to the EditMedicineInfoScreen with the entered product name and optional image
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductData(
+                                productName: _productController.text,
+                                productImage: _image,
+                              ),
+                            ),
                           );
-                          productProvider.addProduct(product);
-                          _productController.clear();
+                          _productController.clear(); // Clear the product name field after navigation
                         },
                         child: Text('Save'),
                         style: ElevatedButton.styleFrom(
@@ -198,6 +204,7 @@ class _ProductListState extends State<ProductList> {
                           ),
                         ),
                       ),
+
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
@@ -292,7 +299,7 @@ class _ProductListState extends State<ProductList> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.52,
                           child: DataTable(
-                            dataRowHeight: 160, // Set the height of each row
+                            dataRowHeight: 180, // Set the height of each row
                             columnSpacing: 20,
                             columns: [
                               DataColumn(
@@ -319,26 +326,22 @@ class _ProductListState extends State<ProductList> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text('SKU: ${product.sku}',
-                                                style: TextStyle(color: white)),
-                                            Text('Name: ${product.name}',
-                                                style: TextStyle(color: white)),
-                                            Text('Category: ${product.category}',
-                                                style: TextStyle(color: white)),
-                                            Text('Type: ${product.type}',
-                                                style: TextStyle(color: white)),
-                                            Text('Measurement: ${product.measurement}',
-                                                style: TextStyle(color: white)),
-                                            Text('Description: ${product.description}',
-                                                style: TextStyle(color: white)),
-                                            Text('Product Price: ${product.productPrice}',
-                                                style: TextStyle(color: white)),
+                                            Text('SKU: ${product.sku}', style: TextStyle(color: white)),
+                                            Text('Name: ${product.name}', style: TextStyle(color: white)),
+                                            Text('Category: ${product.category}', style: TextStyle(color: white)),
+                                            Text('Type: ${product.type}', style: TextStyle(color: white)),
+                                            Text('Measurement: ${product.measurement}', style: TextStyle(color: white)),
+                                            Text('Description: ${product.description}', style: TextStyle(color: white)),
+                                            Text('Product Price: ${product.productPrice}', style: TextStyle(color: white)),
+                                            Text('Date: ${product.formattedDate}', style: TextStyle(color: white)), // Use formattedDate property
                                           ],
                                         ),
+
                                       ),
                                     ),
                                   ),
                                 ),
+
                                 DataCell(Row(
                                   children: [
                                     ElevatedButton(
