@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/edit_product_info.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/product_data.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/add_product_data.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/product_list_provider.dart';
 
 import 'package:provider/provider.dart';
@@ -38,6 +39,59 @@ class _ProductListState extends State<ProductList> {
     });
   }
 
+
+  void _navigateToProductData(String productName, [XFile? productImage]) {
+    if (productName.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddProductData(
+            productName: productName,
+            productImage: productImage,
+          ),
+        ),
+      ).then((_) {
+        // This code will execute after returning from the ProductData screen
+        setState(() {
+          _image = null; // Clear the image
+        });
+      });
+    } else {
+      // Show a snackbar or any other indication that the name is required
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter a product name'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+
+  void _showEdit(Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProductData(
+          productName: product.name,
+          product: product, productImage: null,
+        ),
+      ),
+    ).then((_) {
+      // This code will execute after returning from the EditProductData screen
+      setState(() {
+        // Optionally, you can perform any state updates here if needed
+      });
+    });
+  }
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
@@ -51,50 +105,8 @@ class _ProductListState extends State<ProductList> {
       productProvider.deleteProduct(product);
     }
 
-    void _showEditPrompt(Product product) {
-      TextEditingController _editController =
-      TextEditingController(text: product.name);
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              "Edit Product",
-              style: TextStyle(color: white, fontSize: 20),
-            ),
-            content: TextFormField(
-              controller: _editController,
-              style: TextStyle(color: white),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: containerColor,
-                hintText: 'Enter new product name',
-                hintStyle: TextStyle(color: white.withOpacity(0.5)),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            backgroundColor: scaffoldBackgroundColor,
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text("Cancel", style: TextStyle(color: white)),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Update the product name
-                  productProvider.updateProduct(
-                      product, _editController.text);
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text("Save", style: TextStyle(color: primaryColor)),
-              ),
-            ],
-          );
-        },
-      );
-    }
+
+
 
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
@@ -196,25 +208,19 @@ class _ProductListState extends State<ProductList> {
                         ),
                       ),
                       SizedBox(width: 10),
+
+
                       ElevatedButton(
                         onPressed: () {
-                          // Navigate to the EditMedicineInfoScreen with the entered product name and optional image
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductData(
-                                productName: _productController.text,
-                                productImage: _image,
-                              ),
-                            ),
-                          );
+                          // Navigate to the ProductData screen with the entered product name and optional image
+                          _navigateToProductData(_productController.text, _image);
                           _productController.clear(); // Clear the product name field after navigation
                         },
-                        child: Text('Save'),
+                        child: Text('Add'),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                          foregroundColor: white,
-                          backgroundColor: Colors.green.withOpacity(0.7),
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue.withOpacity(0.7),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -321,7 +327,8 @@ class _ProductListState extends State<ProductList> {
                                     Text(product.id,
                                         style: TextStyle(color: white))),
                                 DataCell(
-                                  Flexible(
+                                  SizedBox(
+                                    width: double.infinity,
                                     child: Container(
                                       constraints: BoxConstraints(minHeight: 100),
                                       child: Padding(
@@ -336,20 +343,20 @@ class _ProductListState extends State<ProductList> {
                                             Text('Measurement: ${product.measurement}', style: TextStyle(color: white)),
                                             Text('Description: ${product.description}', style: TextStyle(color: white)),
                                             Text('Product Price: ${product.productPrice}', style: TextStyle(color: white)),
-                                            Text('Date: ${product.formattedDate}', style: TextStyle(color: white)), // Use formattedDate property
+                                            Text('Expiration Date: ${product.formattedDate}', style: TextStyle(color: white)), // Use formattedDate property
                                           ],
                                         ),
-
                                       ),
                                     ),
                                   ),
                                 ),
 
+
                                 DataCell(Row(
                                   children: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        _showEditPrompt(product);
+                                        _showEdit(product);
                                       },
                                       child: Text('Edit'),
                                       style: ElevatedButton.styleFrom(

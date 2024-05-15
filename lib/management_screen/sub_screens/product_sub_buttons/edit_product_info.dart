@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/product_list_provider.dart';
+import 'package:provider/provider.dart';
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
@@ -11,17 +13,20 @@ const scaffoldBackgroundColor = Color(0xFF464667);
 const containerColor = Color(0xFF353550);
 const white = Colors.white;
 
-class ProductData extends StatefulWidget {
-  final String productName;
+class EditProductData extends StatefulWidget {
+
+  final String? productName;
   final XFile? productImage;
 
-  ProductData({required this.productName, this.productImage});
+  final Product product; // Add this line
+
+  EditProductData({required this.productName, required this.productImage, required this.product}); // Update constructor
 
   @override
-  State<ProductData> createState() => _ProductDataState();
+  State<EditProductData> createState() => _EditProductDataState();
 }
 
-class _ProductDataState extends State<ProductData> {
+class _EditProductDataState extends State<EditProductData> {
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
@@ -34,7 +39,6 @@ class _ProductDataState extends State<ProductData> {
   TextEditingController _priceController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
 
-
   String get formattedDate {
     return DateFormat.yMd().format(_selectedDate); // Format the date as 'MM/dd/yyyy'
   }
@@ -42,9 +46,18 @@ class _ProductDataState extends State<ProductData> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = widget.productName;
-    _image = widget.productImage;
+    // Populate the form fields with the data from the product object
+    _nameController.text = widget.product.name ?? '';
+    _skuController.text = widget.product.sku ?? '';
+    _descriptionController.text = widget.product.description ?? '';
+    _measurementController.text = widget.product.measurement ?? '';
+    _priceController.text = widget.product.productPrice.toString() ?? '';
+    _selectedCategory = widget.product.category;
+    _selectedType = widget.product.type;
+    _selectedDate = widget.product.date ?? DateTime.now();
+    _image = widget.product.imageUrl != null ? XFile(widget.product.imageUrl!) : null;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +100,6 @@ class _ProductDataState extends State<ProductData> {
                   children: <Widget>[
                     // Left Column
                     Expanded(
-                      flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -122,7 +134,6 @@ class _ProductDataState extends State<ProductData> {
                               ),
                             ),
                           ),
-
                           TextFormField(
                             controller: _skuController,
                             decoration: InputDecoration(
@@ -164,10 +175,7 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
-
-
                           SizedBox(height: 20),
-
                           TextFormField(
                             controller: _descriptionController,
                             decoration: InputDecoration(
@@ -209,19 +217,15 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
-
-
                         ],
                       ),
                     ),
                     SizedBox(width: 30),
                     // Middle Column
                     Expanded(
-                      flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-
                           SizedBox(height: 20),
                           TextFormField(
                             controller: _priceController,
@@ -243,7 +247,6 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
-
                           SizedBox(height: 20),
                           DropdownButtonFormField<String>(
                             decoration: InputDecoration(
@@ -315,8 +318,6 @@ class _ProductDataState extends State<ProductData> {
                             },
                           ),
                           SizedBox(height: 30),
-
-
                           Text(
                             'Expiration Date',
                             style: TextStyle(color: white),
@@ -327,21 +328,16 @@ class _ProductDataState extends State<ProductData> {
                               _selectDate(context);
                             },
                             child: Text(
-                                formattedDate,
+                              formattedDate,
                               style: TextStyle(color: white, fontSize: 17),
                             ),
                           ),
-
                           SizedBox(height: 75),
-
-
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-
                               ElevatedButton(
-                                onPressed: (){},
+                                onPressed: _clearFields,
                                 child: Text(
                                   'Clear',
                                   style: TextStyle(fontSize: 18),
@@ -357,9 +353,7 @@ class _ProductDataState extends State<ProductData> {
                               ),
                               SizedBox(width: 20),
                               ElevatedButton(
-                                onPressed: () {
-
-                                },
+                                onPressed: () => _updateProduct(widget.product), // Use widget.product here
                                 child: Text(
                                   'Save',
                                   style: TextStyle(fontSize: 18),
@@ -367,23 +361,22 @@ class _ProductDataState extends State<ProductData> {
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                                   foregroundColor: white,
-                                  backgroundColor: Colors.green.withOpacity(0.7), // Choose a color for clear button
+                                  backgroundColor: Colors.green.withOpacity(0.7),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
                               ),
-                              // Add space between buttons
 
+
+                              // Add space between buttons
                             ],
                           ),
-
                         ],
                       ),
                     ),
                     SizedBox(width: 20),
                     // Right Column
-
                   ],
                 ),
               ),
@@ -426,6 +419,52 @@ class _ProductDataState extends State<ProductData> {
       });
     }
   }
+
+  void _clearFields() {
+    _skuController.clear();
+    _nameController.clear();
+    _descriptionController.clear();
+    _measurementController.clear();
+    _priceController.clear();
+    setState(() {
+      _selectedCategory = null;
+      _selectedType = null;
+      _selectedDate = DateTime.now();
+      _image = null;
+    });
+  }
+
+  void _updateProduct(Product originalProduct) {
+    if (_formKey.currentState!.validate()) {
+      // If form is valid, create a new Product object with entered data
+      Product updatedProduct = Product(
+        id: originalProduct.id, // Preserve the original product's ID
+        name: _nameController.text,
+        sku: _skuController.text,
+        category: _selectedCategory!,
+        type: _selectedType!,
+        measurement: _measurementController.text,
+        description: _descriptionController.text,
+        productPrice: double.parse(_priceController.text),
+        imageUrl: _image?.path,
+        date: _selectedDate,
+      );
+      // Access the ProductProvider instance
+      ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
+      // Update the product in the provider
+      productProvider.updateProduct(updatedProduct);
+      // Clear the form fields
+      //_clearFields();
+      // Show SnackBar indicating success
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Product updated successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
 
 
 }
