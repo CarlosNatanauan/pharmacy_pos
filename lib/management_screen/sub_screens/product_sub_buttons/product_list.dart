@@ -38,6 +38,39 @@ class _ProductListState extends State<ProductList> {
     });
   }
 
+
+  void _navigateToProductData(String productName, [XFile? productImage]) {
+    if (productName.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProductData(
+            productName: productName,
+            productImage: productImage,
+          ),
+        ),
+      ).then((_) {
+        // This code will execute after returning from the ProductData screen
+        setState(() {
+          _image = null; // Clear the image
+        });
+      });
+    } else {
+      // Show a snackbar or any other indication that the name is required
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter a product name'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
@@ -196,24 +229,18 @@ class _ProductListState extends State<ProductList> {
                         ),
                       ),
                       SizedBox(width: 10),
+
+
                       ElevatedButton(
                         onPressed: () {
-                          // Navigate to the EditMedicineInfoScreen with the entered product name and optional image
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductData(
-                                productName: _productController.text,
-                                productImage: _image,
-                              ),
-                            ),
-                          );
+                          // Navigate to the ProductData screen with the entered product name and optional image
+                          _navigateToProductData(_productController.text, _image);
                           _productController.clear(); // Clear the product name field after navigation
                         },
                         child: Text('Save'),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                          foregroundColor: white,
+                          foregroundColor: Colors.white,
                           backgroundColor: Colors.green.withOpacity(0.7),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -321,7 +348,8 @@ class _ProductListState extends State<ProductList> {
                                     Text(product.id,
                                         style: TextStyle(color: white))),
                                 DataCell(
-                                  Flexible(
+                                  SizedBox(
+                                    width: double.infinity,
                                     child: Container(
                                       constraints: BoxConstraints(minHeight: 100),
                                       child: Padding(
@@ -336,14 +364,14 @@ class _ProductListState extends State<ProductList> {
                                             Text('Measurement: ${product.measurement}', style: TextStyle(color: white)),
                                             Text('Description: ${product.description}', style: TextStyle(color: white)),
                                             Text('Product Price: ${product.productPrice}', style: TextStyle(color: white)),
-                                            Text('Date: ${product.formattedDate}', style: TextStyle(color: white)), // Use formattedDate property
+                                            Text('Expiration Date: ${product.formattedDate}', style: TextStyle(color: white)), // Use formattedDate property
                                           ],
                                         ),
-
                                       ),
                                     ),
                                   ),
                                 ),
+
 
                                 DataCell(Row(
                                   children: [

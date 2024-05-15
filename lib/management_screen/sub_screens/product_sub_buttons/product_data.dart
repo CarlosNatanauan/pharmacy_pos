@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/product_list_provider.dart';
+import 'package:provider/provider.dart';
 
 const primaryColor = Color(0xFF685BFF);
 const canvasColor = Color(0xFF2E2E48);
@@ -33,7 +35,6 @@ class _ProductDataState extends State<ProductData> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-
 
   String get formattedDate {
     return DateFormat.yMd().format(_selectedDate); // Format the date as 'MM/dd/yyyy'
@@ -87,7 +88,6 @@ class _ProductDataState extends State<ProductData> {
                   children: <Widget>[
                     // Left Column
                     Expanded(
-                      flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -122,7 +122,6 @@ class _ProductDataState extends State<ProductData> {
                               ),
                             ),
                           ),
-
                           TextFormField(
                             controller: _skuController,
                             decoration: InputDecoration(
@@ -164,10 +163,7 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
-
-
                           SizedBox(height: 20),
-
                           TextFormField(
                             controller: _descriptionController,
                             decoration: InputDecoration(
@@ -209,19 +205,15 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
-
-
                         ],
                       ),
                     ),
                     SizedBox(width: 30),
                     // Middle Column
                     Expanded(
-                      flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-
                           SizedBox(height: 20),
                           TextFormField(
                             controller: _priceController,
@@ -243,7 +235,6 @@ class _ProductDataState extends State<ProductData> {
                               return null;
                             },
                           ),
-
                           SizedBox(height: 20),
                           DropdownButtonFormField<String>(
                             decoration: InputDecoration(
@@ -315,8 +306,6 @@ class _ProductDataState extends State<ProductData> {
                             },
                           ),
                           SizedBox(height: 30),
-
-
                           Text(
                             'Expiration Date',
                             style: TextStyle(color: white),
@@ -327,21 +316,16 @@ class _ProductDataState extends State<ProductData> {
                               _selectDate(context);
                             },
                             child: Text(
-                                formattedDate,
+                              formattedDate,
                               style: TextStyle(color: white, fontSize: 17),
                             ),
                           ),
-
                           SizedBox(height: 75),
-
-
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-
                               ElevatedButton(
-                                onPressed: (){},
+                                onPressed: _clearFields,
                                 child: Text(
                                   'Clear',
                                   style: TextStyle(fontSize: 18),
@@ -357,9 +341,7 @@ class _ProductDataState extends State<ProductData> {
                               ),
                               SizedBox(width: 20),
                               ElevatedButton(
-                                onPressed: () {
-
-                                },
+                                onPressed: _saveProduct,
                                 child: Text(
                                   'Save',
                                   style: TextStyle(fontSize: 18),
@@ -374,16 +356,13 @@ class _ProductDataState extends State<ProductData> {
                                 ),
                               ),
                               // Add space between buttons
-
                             ],
                           ),
-
                         ],
                       ),
                     ),
                     SizedBox(width: 20),
                     // Right Column
-
                   ],
                 ),
               ),
@@ -427,5 +406,49 @@ class _ProductDataState extends State<ProductData> {
     }
   }
 
+  void _clearFields() {
+    _skuController.clear();
+    _nameController.clear();
+    _descriptionController.clear();
+    _measurementController.clear();
+    _priceController.clear();
+    setState(() {
+      _selectedCategory = null;
+      _selectedType = null;
+      _selectedDate = DateTime.now();
+      _image = null;
+    });
+  }
+
+  void _saveProduct() {
+    if (_formKey.currentState!.validate()) {
+      // If form is valid, create a Product object with entered data
+      Product product = Product(
+        id: '1', // Setting id to '1'
+        name: _nameController.text,
+        sku: _skuController.text,
+        category: _selectedCategory!,
+        type: _selectedType!,
+        measurement: _measurementController.text,
+        description: _descriptionController.text,
+        productPrice: double.parse(_priceController.text),
+        imageUrl: _image?.path,
+        date: _selectedDate,
+      );
+      // Access the ProductProvider instance
+      ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
+      // Add the product to the provider
+      productProvider.addProduct(product);
+      // Clear the form fields
+      _clearFields();
+      // Show SnackBar indicating success
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Product added successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
 
 }

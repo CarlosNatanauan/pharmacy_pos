@@ -9,24 +9,23 @@ class Product {
   String measurement;
   String description;
   double productPrice;
-  DateTime date; // Updated to be non-nullable
-  String? imageUrl; // New field for image URL, made optional
+  DateTime date;
+  String? imageUrl;
 
   Product({
-    required this.id,
+    this.id = '1', // Set id to '1' as default value
     required this.name,
-    this.sku = '123151269',
-    this.category = 'over the counter medicine',
-    this.type = 'capsule',
-    this.measurement = '50 per grams',
-    this.description = 'this is a medicine',
-    this.productPrice = 20.0,
-    this.imageUrl, // Made imageUrl optional
-    DateTime? date, // Made date optional
-  }) : date = date != null ? DateTime(date.year, date.month, date.day) : DateTime.now(); // Initialize with date part only or current date if not provided
+    required this.sku,
+    required this.category,
+    required this.type,
+    required this.measurement,
+    required this.description,
+    required this.productPrice,
+    required this.date,
+    this.imageUrl,
+  });
 
-  // Method to format the date as a string
   String get formattedDate {
-    return DateFormat.yMd().format(date); // Format the date as 'MM/dd/yyyy'
+    return DateFormat.yMd().format(date);
   }
 }
