@@ -1,7 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+
 import 'package:provider/provider.dart';
 import '../model/user.dart';
 import '../model/user_provider.dart';
