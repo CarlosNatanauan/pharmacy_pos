@@ -430,10 +430,22 @@ class _AddProductDataState extends State<AddProductData> {
         type: _selectedType!,
         measurement: _measurementController.text,
         description: _descriptionController.text,
-        productPrice: double.parse(_priceController.text),
+        productPrice: double.tryParse(_priceController.text) ?? 0.0, // Parsing the price as double
         imageUrl: _image?.path,
         date: _selectedDate,
       );
+
+      if (product.productPrice == 0.0) {
+        // Show SnackBar for invalid price
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid price. Please enter a valid number.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return; // Exit function
+      }
+
       // Access the ProductProvider instance
       ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
       // Add the product to the provider
@@ -447,8 +459,17 @@ class _AddProductDataState extends State<AddProductData> {
           duration: Duration(seconds: 2),
         ),
       );
+    } else {
+      // Show SnackBar if form fields are invalid
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill all required fields.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
+
 
 
 }
