@@ -14,10 +14,10 @@ const containerColor = Color(0xFF353550);
 const white = Colors.white;
 
 class ProductData extends StatefulWidget {
-  final String productName;
+  final String? productName;
   final XFile? productImage;
 
-  ProductData({required this.productName, this.productImage});
+  ProductData({this.productName, this.productImage});
 
   @override
   State<ProductData> createState() => _ProductDataState();
@@ -43,7 +43,7 @@ class _ProductDataState extends State<ProductData> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = widget.productName;
+    _nameController.text = widget.productName ?? '';
     _image = widget.productImage;
   }
 

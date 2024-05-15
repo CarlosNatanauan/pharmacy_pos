@@ -85,49 +85,23 @@ class _ProductListState extends State<ProductList> {
     }
 
     void _showEditPrompt(Product product) {
-      TextEditingController _editController =
-      TextEditingController(text: product.name);
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              "Edit Product",
-              style: TextStyle(color: white, fontSize: 20),
-            ),
-            content: TextFormField(
-              controller: _editController,
-              style: TextStyle(color: white),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: containerColor,
-                hintText: 'Enter new product name',
-                hintStyle: TextStyle(color: white.withOpacity(0.5)),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            backgroundColor: scaffoldBackgroundColor,
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text("Cancel", style: TextStyle(color: white)),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Update the product name
-                  productProvider.updateProduct(
-                      product, _editController.text);
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text("Save", style: TextStyle(color: primaryColor)),
-              ),
-            ],
-          );
-        },
-      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProductData(
+            productName: product.name, // Pass the name of the selected product
+            productImage: null, // Pass null or any existing image
+          ),
+        ),
+      ).then((_) {
+        // This code will execute after returning from the ProductData screen
+        setState(() {
+          _image = null; // Clear the image
+        });
+      });
     }
+
+
 
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
