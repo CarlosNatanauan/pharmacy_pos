@@ -16,13 +16,14 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProduct(Product medicine, String newName) {
-    // Find the index of the medicine in the list
-    final index = _products.indexOf(medicine);
-    if (index != -1) {
-      // Update the medicine name
-      _products[index].name = newName;
+  void updateProduct(Product product) {
+    // Find the index of the product in the list
+    int existingIndex = _products.indexWhere((p) => p.id == product.id);
+    if (existingIndex != -1) {
+      // If the product exists, update its properties
+      _products[existingIndex] = product;
       notifyListeners();
     }
   }
+
 }

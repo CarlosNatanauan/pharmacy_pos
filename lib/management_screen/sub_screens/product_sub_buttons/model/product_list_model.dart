@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class Product {
+  static int _idCounter = 0; // Static counter for generating IDs
+
   String id;
   String name;
   String sku;
@@ -13,7 +16,7 @@ class Product {
   String? imageUrl;
 
   Product({
-    this.id = '1', // Set id to '1' as default value
+    String? id, // Allow null to generate unique ID if not provided
     required this.name,
     required this.sku,
     required this.category,
@@ -23,9 +26,10 @@ class Product {
     required this.productPrice,
     required this.date,
     this.imageUrl,
-  });
+  }) : id = id ?? (_idCounter++).toString(); // Generate unique ID if not provided
 
   String get formattedDate {
     return DateFormat.yMd().format(date);
   }
 }
+

@@ -13,17 +13,20 @@ const scaffoldBackgroundColor = Color(0xFF464667);
 const containerColor = Color(0xFF353550);
 const white = Colors.white;
 
-class ProductData extends StatefulWidget {
+class EditProductData extends StatefulWidget {
+
   final String? productName;
   final XFile? productImage;
 
-  ProductData({this.productName, this.productImage});
+  final Product product; // Add this line
+
+  EditProductData({required this.productName, required this.productImage, required this.product}); // Update constructor
 
   @override
-  State<ProductData> createState() => _ProductDataState();
+  State<EditProductData> createState() => _EditProductDataState();
 }
 
-class _ProductDataState extends State<ProductData> {
+class _EditProductDataState extends State<EditProductData> {
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
@@ -43,9 +46,18 @@ class _ProductDataState extends State<ProductData> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = widget.productName ?? '';
-    _image = widget.productImage;
+    // Populate the form fields with the data from the product object
+    _nameController.text = widget.product.name ?? '';
+    _skuController.text = widget.product.sku ?? '';
+    _descriptionController.text = widget.product.description ?? '';
+    _measurementController.text = widget.product.measurement ?? '';
+    _priceController.text = widget.product.productPrice.toString() ?? '';
+    _selectedCategory = widget.product.category;
+    _selectedType = widget.product.type;
+    _selectedDate = widget.product.date ?? DateTime.now();
+    _image = widget.product.imageUrl != null ? XFile(widget.product.imageUrl!) : null;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +353,7 @@ class _ProductDataState extends State<ProductData> {
                               ),
                               SizedBox(width: 20),
                               ElevatedButton(
-                                onPressed: _saveProduct,
+                                onPressed: () => _updateProduct(widget.product), // Use widget.product here
                                 child: Text(
                                   'Save',
                                   style: TextStyle(fontSize: 18),
@@ -349,12 +361,14 @@ class _ProductDataState extends State<ProductData> {
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                                   foregroundColor: white,
-                                  backgroundColor: Colors.green.withOpacity(0.7), // Choose a color for clear button
+                                  backgroundColor: Colors.green.withOpacity(0.7),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
                               ),
+
+
                               // Add space between buttons
                             ],
                           ),
@@ -420,11 +434,11 @@ class _ProductDataState extends State<ProductData> {
     });
   }
 
-  void _saveProduct() {
+  void _updateProduct(Product originalProduct) {
     if (_formKey.currentState!.validate()) {
-      // If form is valid, create a Product object with entered data
-      Product product = Product(
-        id: '1', // Setting id to '1'
+      // If form is valid, create a new Product object with entered data
+      Product updatedProduct = Product(
+        id: originalProduct.id, // Preserve the original product's ID
         name: _nameController.text,
         sku: _skuController.text,
         category: _selectedCategory!,
@@ -437,18 +451,20 @@ class _ProductDataState extends State<ProductData> {
       );
       // Access the ProductProvider instance
       ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
-      // Add the product to the provider
-      productProvider.addProduct(product);
+      // Update the product in the provider
+      productProvider.updateProduct(updatedProduct);
       // Clear the form fields
-      _clearFields();
+      //_clearFields();
       // Show SnackBar indicating success
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Product added successfully'),
+          content: Text('Product updated successfully'),
           duration: Duration(seconds: 2),
         ),
       );
     }
   }
+
+
 
 }

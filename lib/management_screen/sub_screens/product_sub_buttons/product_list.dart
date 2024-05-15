@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/edit_product_info.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/product_data.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/add_product_data.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/product_list_provider.dart';
 
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _ProductListState extends State<ProductList> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProductData(
+          builder: (context) => AddProductData(
             productName: productName,
             productImage: productImage,
           ),
@@ -67,6 +68,26 @@ class _ProductListState extends State<ProductList> {
   }
 
 
+  void _showEdit(Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProductData(
+          productName: product.name,
+          product: product, productImage: null,
+        ),
+      ),
+    ).then((_) {
+      // This code will execute after returning from the EditProductData screen
+      setState(() {
+        // Optionally, you can perform any state updates here if needed
+      });
+    });
+  }
+
+
+
+
 
 
 
@@ -84,22 +105,6 @@ class _ProductListState extends State<ProductList> {
       productProvider.deleteProduct(product);
     }
 
-    void _showEditPrompt(Product product) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ProductData(
-            productName: product.name, // Pass the name of the selected product
-            productImage: null, // Pass null or any existing image
-          ),
-        ),
-      ).then((_) {
-        // This code will execute after returning from the ProductData screen
-        setState(() {
-          _image = null; // Clear the image
-        });
-      });
-    }
 
 
 
@@ -211,11 +216,11 @@ class _ProductListState extends State<ProductList> {
                           _navigateToProductData(_productController.text, _image);
                           _productController.clear(); // Clear the product name field after navigation
                         },
-                        child: Text('Save'),
+                        child: Text('Add'),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                           foregroundColor: Colors.white,
-                          backgroundColor: Colors.green.withOpacity(0.7),
+                          backgroundColor: Colors.blue.withOpacity(0.7),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -351,7 +356,7 @@ class _ProductListState extends State<ProductList> {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        _showEditPrompt(product);
+                                        _showEdit(product);
                                       },
                                       child: Text('Edit'),
                                       style: ElevatedButton.styleFrom(
