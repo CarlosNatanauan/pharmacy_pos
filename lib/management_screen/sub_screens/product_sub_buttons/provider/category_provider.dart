@@ -22,7 +22,7 @@ class CategoryProvider extends ChangeNotifier {
     final index = _categories.indexOf(category);
     if (index != -1) {
       // Update the category name
-      _categories[index].name = newName;
+      _categories[index].categoryName = newName;
       notifyListeners();
     }
   }

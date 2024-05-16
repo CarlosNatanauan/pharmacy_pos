@@ -35,7 +35,7 @@ class _ProductCategoryState extends State<ProductCategory> {
 
     List<Category> filteredCategories = categoryProvider.categories
         .where((category) =>
-        category.name.toLowerCase().contains(_searchText.toLowerCase()))
+        category.categoryName.toLowerCase().contains(_searchText.toLowerCase()))
         .toList();
 
     void deleteCategory(Category category) {
@@ -43,7 +43,7 @@ class _ProductCategoryState extends State<ProductCategory> {
     }
 
     void _showEditPrompt(Category category) {
-      TextEditingController _editController = TextEditingController(text: category.name);
+      TextEditingController _editController = TextEditingController(text: category.categoryName);
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -158,10 +158,9 @@ class _ProductCategoryState extends State<ProductCategory> {
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
-                          final category = Category(
-                            id: '1', // Default ID
-                            name: _categoryController.text,
-                          );
+                          final category = Category(categoryName: _categoryController.text);
+
+
                           categoryProvider.addCategory(category);
                           _categoryController.clear();
                         },
@@ -251,7 +250,7 @@ class _ProductCategoryState extends State<ProductCategory> {
                             rows: filteredCategories.map((category) {
                               return DataRow(cells: [
                                 DataCell(Text(category.id, style: TextStyle(color: white))),
-                                DataCell(Text(category.name, style: TextStyle(color: white))),
+                                DataCell(Text(category.categoryName, style: TextStyle(color: white))),
                                 DataCell(Row(
                                   children: [
 

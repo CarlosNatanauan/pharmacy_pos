@@ -17,7 +17,7 @@ class ProductTypeProvider extends ChangeNotifier {
   // Method to update an existing type
   void updateType(ProductType oldType, String newName) {
     final index = _types.indexOf(oldType);
-    _types[index] = ProductType(id: oldType.id, name: newName);
+    _types[index] = ProductType(id: oldType.id, typeName: newName);
     notifyListeners(); // Notify listeners of the change
   }
 

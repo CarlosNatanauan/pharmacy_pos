@@ -31,7 +31,7 @@ class _ProductTypesState extends State<ProductTypes> {
 
     List<ProductType> filteredTypes = typeProvider.types
         .where((type) =>
-        type.name.toLowerCase().contains(_searchText.toLowerCase()))
+        type.typeName.toLowerCase().contains(_searchText.toLowerCase()))
         .toList();
 
     void deleteType(ProductType type) {
@@ -40,7 +40,7 @@ class _ProductTypesState extends State<ProductTypes> {
 
     void _showEditPrompt(ProductType type) {
       TextEditingController _editController =
-      TextEditingController(text: type.name);
+      TextEditingController(text: type.typeName);
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -154,10 +154,10 @@ class _ProductTypesState extends State<ProductTypes> {
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
-                          final type = ProductType(
-                            id: '1', // Default ID
-                            name: _typeController.text,
-                          );
+                          final type = ProductType(typeName: _typeController.text);
+
+
+
                           typeProvider.addType(type);
                           _typeController.clear();
                         },
@@ -255,7 +255,7 @@ class _ProductTypesState extends State<ProductTypes> {
                               return DataRow(cells: [
                                 DataCell(Text(type.id,
                                     style: TextStyle(color: white))),
-                                DataCell(Text(type.name,
+                                DataCell(Text(type.typeName,
                                     style: TextStyle(color: white))),
                                 DataCell(Row(
                                   children: [
