@@ -1,6 +1,9 @@
 class ProductType {
   String id;
-  String name;
+  String typeName;
 
-  ProductType({required this.id, required this.name});
+  ProductType({String? id, required this.typeName})
+      : id = id ?? (_idCounter++).toString();
+
+  static int _idCounter = 1;
 }

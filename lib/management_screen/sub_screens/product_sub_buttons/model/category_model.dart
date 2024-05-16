@@ -1,6 +1,9 @@
 class Category {
-   String id;
-   String name;
+  String id;
+  String categoryName;
 
-  Category({required this.id, required this.name});
+  Category({String? id, required this.categoryName})
+      : id = id ?? (_idCounter++).toString();
+
+  static int _idCounter = 1;
 }

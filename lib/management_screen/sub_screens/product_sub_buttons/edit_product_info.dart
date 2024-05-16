@@ -3,8 +3,12 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/category_model.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/product_list_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/model/type_model.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/category_provider.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/product_list_provider.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/product_sub_buttons/provider/type_provider.dart';
 import 'package:provider/provider.dart';
 
 const primaryColor = Color(0xFF685BFF);
@@ -250,75 +254,81 @@ class _EditProductDataState extends State<EditProductData> {
                             },
                           ),
                           SizedBox(height: 20),
-                          DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              labelText: 'Product Type',
-                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white.withOpacity(0.3)),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white),
-                              ),
-                            ),
-                            items: <String>['Type A', 'Type B', 'Type C']
-                                .map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: white), // Set text color to white
+                          Consumer<ProductTypeProvider>(
+                            builder: (context, productTypeProvider, _) => DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: 'Product Type',
+                                labelStyle: TextStyle(color: white.withOpacity(0.7)),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
-                              );
-                            }).toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _selectedType = value;
-                              });
-                            },
-                            value: _selectedType,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select type';
-                              }
-                              return null;
-                            },
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: white),
+                                ),
+                              ),
+                              items: productTypeProvider.types.map((ProductType type) {
+                                return DropdownMenuItem<String>(
+                                  value: type.typeName,
+                                  child: Text(
+                                    type.typeName,
+                                    style: TextStyle(color: white),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _selectedType = value;
+                                });
+                              },
+                              value: _selectedType,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select type';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                           SizedBox(height: 20),
-                          DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              labelText: 'Product Category',
-                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white.withOpacity(0.3)),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: white),
-                              ),
-                            ),
-                            items: <String>['Category A', 'Category B', 'Category C']
-                                .map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: white), // Set text color to white
+
+
+                          Consumer<CategoryProvider>(
+                            builder: (context, categoryProvider, _) => DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: 'Product Category',
+                                labelStyle: TextStyle(color: white.withOpacity(0.7)),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: white.withOpacity(0.3)),
                                 ),
-                              );
-                            }).toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _selectedCategory = value;
-                              });
-                            },
-                            value: _selectedCategory,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select category';
-                              }
-                              return null;
-                            },
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: white),
+                                ),
+                              ),
+                              items: categoryProvider.categories.map<DropdownMenuItem<String>>((Category category) {
+                                return DropdownMenuItem<String>(
+                                  value: category.categoryName,
+                                  child: Text(
+                                    category.categoryName,
+                                    style: TextStyle(color: white),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _selectedCategory = value;
+                                });
+                              },
+                              value: _selectedCategory,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select category';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
+
+
                           SizedBox(height: 20),
 
                           TextFormField(
@@ -448,13 +458,13 @@ class _EditProductDataState extends State<EditProductData> {
     var results = await showCalendarDatePicker2Dialog(
       context: context,
       config: CalendarDatePicker2WithActionButtonsConfig(
-        dayTextStyle: TextStyle(color: Colors.white),
+        dayTextStyle: TextStyle(color: white.withOpacity(0.9)),
         todayTextStyle: TextStyle(color: white),
         selectedDayHighlightColor: Colors.lightBlue.withOpacity(0.5),
-        controlsTextStyle: TextStyle(color: primaryColor),
+        controlsTextStyle: TextStyle(fontSize: 18,color: white, fontWeight: FontWeight.bold),
         cancelButtonTextStyle: TextStyle(color: Colors.red.withOpacity(0.7)),
         okButtonTextStyle: TextStyle(color: Colors.green.withOpacity(0.7)),
-        weekdayLabelTextStyle: TextStyle(color: primaryColor),
+        weekdayLabelTextStyle: TextStyle(fontSize: 16,color: white, fontWeight: FontWeight.bold),
         monthTextStyle: TextStyle(color: white),
         yearTextStyle: TextStyle(color: white),
       ),

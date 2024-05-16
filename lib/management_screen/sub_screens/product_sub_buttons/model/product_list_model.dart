@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class Product {
-  static int _idCounter = 0;
+  static int _idCounter = 1;
 
   String id;
   String name;
