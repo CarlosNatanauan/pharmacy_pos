@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/stock_sub_buttons/stock_adjustment_history.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/stock_sub_buttons/stock_in.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/stock_sub_buttons/stock_adjustment.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/stock_sub_buttons/stock_in_history.dart';
 
-import 'entities_sub_buttons/customer_list.dart';
-import 'entities_sub_buttons/supplier_list.dart';
+
 import 'operation_sub_buttons/inventory.dart';
 import 'operation_sub_buttons/receiving.dart';
 import 'operation_sub_buttons/sales.dart';
@@ -10,14 +13,14 @@ import 'operation_sub_buttons/sales.dart';
 
 
 
-class Entities extends StatefulWidget {
+class Stock extends StatefulWidget {
   @override
-  _EntitiesState createState() => _EntitiesState();
+  _StockState createState() => _StockState();
 }
 
-class _EntitiesState extends State<Entities> {
+class _StockState extends State<Stock> {
   int _selectedIndex = 0;
-  final List<String> _tabTitles = ['Customer List', 'Supplier List'];
+  final List<String> _tabTitles = ['Stock In', 'Stock In History' , 'Stock Adjustment', 'Stock Adjustment History'];
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,8 @@ class _EntitiesState extends State<Entities> {
                     children: [
                       _buildTabButton(0),
                       _buildTabButton(1),
+                      _buildTabButton(2),
+                      _buildTabButton(3),
                     ],
                     onPressed: (int index) {
                       setState(() {
@@ -87,10 +92,13 @@ class _EntitiesState extends State<Entities> {
   Widget _buildSelectedScreen(int index) {
     switch (index) {
       case 0:
-        return CustomerList();
+        return StockIn();
       case 1:
-        return SupplierList();
-
+        return StockInHistory();
+      case 2:
+        return StockAdjustment();
+      case 3:
+        return StockAdjustmentHistory();
       default:
         return Container();
     }

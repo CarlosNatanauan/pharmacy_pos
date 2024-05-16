@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/dashboard.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/operations.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/entities.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/stock.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -33,7 +33,7 @@ class MainManagementScreen extends StatelessWidget {
     'Dashboard': Dashboard(),
     'Product': Product(),
     'Operations': Operations(),
-    'Entities': Entities(),
+    'Stock': Stock(),
     'Users': Users(),
   };
 
@@ -196,7 +196,7 @@ class ExampleSidebarX extends StatelessWidget {
         ),
         const SidebarXItem(
           icon: Icons.people,
-          label: 'Entities',
+          label: 'Stock',
         ),
         if (isAdmin)
           const SidebarXItem(
@@ -330,7 +330,7 @@ String _getTitleByIndex(int index) {
     case 2:
       return 'Operations';
     case 3:
-      return 'Entities';
+      return 'Stock';
     case 4:
       return 'Users';
     default:
