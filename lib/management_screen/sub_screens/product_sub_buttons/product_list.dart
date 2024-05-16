@@ -308,7 +308,7 @@ class _ProductListState extends State<ProductList> {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.52,
                           child: DataTable(
-                            dataRowHeight: 180, // Set the height of each row
+                            dataRowHeight: 200, // Set the height of each row
                             columnSpacing: 20,
                             columns: [
                               DataColumn(
@@ -343,6 +343,7 @@ class _ProductListState extends State<ProductList> {
                                             Text('Measurement: ${product.measurement}', style: TextStyle(color: white)),
                                             Text('Description: ${product.description}', style: TextStyle(color: white)),
                                             Text('Product Price: ${product.productPrice}', style: TextStyle(color: white)),
+                                            Text('Quantity: ${product.quantity}', style: TextStyle(color: white)),
                                             Text('Expiration Date: ${product.formattedDate}', style: TextStyle(color: white)), // Use formattedDate property
                                           ],
                                         ),

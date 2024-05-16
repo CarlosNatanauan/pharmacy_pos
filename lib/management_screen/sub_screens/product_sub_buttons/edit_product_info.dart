@@ -37,6 +37,7 @@ class _EditProductDataState extends State<EditProductData> {
   TextEditingController _measurementController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
+  TextEditingController _quantityController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
 
   String get formattedDate {
@@ -55,6 +56,7 @@ class _EditProductDataState extends State<EditProductData> {
     _selectedCategory = widget.product.category;
     _selectedType = widget.product.type;
     _selectedDate = widget.product.date ?? DateTime.now();
+    _quantityController.text = widget.product.quantity.toString() ?? '';
     _image = widget.product.imageUrl != null ? XFile(widget.product.imageUrl!) : null;
   }
 
@@ -317,65 +319,112 @@ class _EditProductDataState extends State<EditProductData> {
                               return null;
                             },
                           ),
+                          SizedBox(height: 20),
+
+                          TextFormField(
+                            controller: _quantityController,
+                            decoration: InputDecoration(
+                              labelText: 'Quantity',
+                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white.withOpacity(0.3)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white),
+                              ),
+                            ),
+                            style: TextStyle(color: white),
+                            keyboardType: TextInputType.number, // Set keyboard type to number
+                            enabled: false, // Disable editing
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter quantity';
+                              }
+                              return null;
+                            },
+                          ),
+
+
+
                           SizedBox(height: 30),
+
+
                           Text(
                             'Expiration Date',
                             style: TextStyle(color: white),
                           ),
-                          SizedBox(height: 10),
-                          TextButton(
-                            onPressed: () {
-                              _selectDate(context);
-                            },
-                            child: Text(
-                              formattedDate,
-                              style: TextStyle(color: white, fontSize: 17),
-                            ),
-                          ),
-                          SizedBox(height: 75),
+
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ElevatedButton(
-                                onPressed: _clearFields,
-                                child: Text(
-                                  'Clear',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                                  foregroundColor: white,
-                                  backgroundColor: Colors.red.withOpacity(0.7),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  SizedBox(height: 10),
+                                  TextButton(
+                                    onPressed: () {
+                                      _selectDate(context);
+                                    },
+                                    child: Text(
+                                      formattedDate,
+                                      style: TextStyle(color: white, fontSize: 17),
+                                    ),
                                   ),
+                                ],
+                              ),
+                              SizedBox(width: 30), // Adjust the spacing between expiration date and buttons
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: _clearFields,
+                                      child: Text(
+                                        'Clear',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                                        foregroundColor: white,
+                                        backgroundColor: Colors.red.withOpacity(0.7),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    ElevatedButton(
+                                      onPressed: () => _updateProduct(widget.product), // Use widget.product here
+                                      child: Text(
+                                        'Save',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                                        foregroundColor: white,
+                                        backgroundColor: Colors.green.withOpacity(0.7),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: () => _updateProduct(widget.product), // Use widget.product here
-                                child: Text(
-                                  'Save',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                                  foregroundColor: white,
-                                  backgroundColor: Colors.green.withOpacity(0.7),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                              ),
-
-
-                              // Add space between buttons
                             ],
                           ),
+
+
+
+
+
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
+
                     // Right Column
                   ],
                 ),
@@ -436,6 +485,19 @@ class _EditProductDataState extends State<EditProductData> {
 
   void _updateProduct(Product originalProduct) {
     if (_formKey.currentState!.validate()) {
+      // Parse quantity as integer
+      int? quantity = int.tryParse(_quantityController.text);
+      if (quantity == null || quantity <= 0) {
+        // Show SnackBar for invalid quantity
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid quantity. Please enter a valid number greater than zero.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return; // Exit function
+      }
+
       // If form is valid, create a new Product object with entered data
       Product updatedProduct = Product(
         id: originalProduct.id, // Preserve the original product's ID
@@ -446,6 +508,7 @@ class _EditProductDataState extends State<EditProductData> {
         measurement: _measurementController.text,
         description: _descriptionController.text,
         productPrice: double.parse(_priceController.text),
+        quantity: int.parse(_quantityController.text), // Use parsed quantity
         imageUrl: _image?.path,
         date: _selectedDate,
       );
@@ -464,6 +527,7 @@ class _EditProductDataState extends State<EditProductData> {
       );
     }
   }
+
 
 
 
