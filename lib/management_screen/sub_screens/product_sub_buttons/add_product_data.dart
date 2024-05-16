@@ -34,6 +34,7 @@ class _AddProductDataState extends State<AddProductData> {
   TextEditingController _measurementController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
+  TextEditingController _quantityController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
 
   String get formattedDate {
@@ -236,6 +237,8 @@ class _AddProductDataState extends State<AddProductData> {
                             },
                           ),
                           SizedBox(height: 20),
+
+                          
                           DropdownButtonFormField<String>(
                             decoration: InputDecoration(
                               labelText: 'Product Type',
@@ -270,6 +273,8 @@ class _AddProductDataState extends State<AddProductData> {
                               return null;
                             },
                           ),
+
+
                           SizedBox(height: 20),
                           DropdownButtonFormField<String>(
                             decoration: InputDecoration(
@@ -305,63 +310,111 @@ class _AddProductDataState extends State<AddProductData> {
                               return null;
                             },
                           ),
+                          SizedBox(height: 20),
+
+                          TextFormField(
+                            controller: _quantityController,
+                            decoration: InputDecoration(
+                              labelText: 'Initial Quantity',
+                              labelStyle: TextStyle(color: white.withOpacity(0.7)),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white.withOpacity(0.3)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: white),
+                              ),
+                            ),
+                            style: TextStyle(color: white),
+                            keyboardType: TextInputType.number, // Set keyboard type to number
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter quantity';
+                              }
+                              return null;
+                            },
+                          ),
+
+
                           SizedBox(height: 30),
+
                           Text(
                             'Expiration Date',
                             style: TextStyle(color: white),
                           ),
-                          SizedBox(height: 10),
-                          TextButton(
-                            onPressed: () {
-                              _selectDate(context);
-                            },
-                            child: Text(
-                              formattedDate,
-                              style: TextStyle(color: white, fontSize: 17),
-                            ),
-                          ),
-                          SizedBox(height: 75),
+
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ElevatedButton(
-                                onPressed: _clearFields,
-                                child: Text(
-                                  'Clear',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                                  foregroundColor: white,
-                                  backgroundColor: Colors.red.withOpacity(0.7),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  SizedBox(height: 10),
+                                  TextButton(
+                                    onPressed: () {
+                                      _selectDate(context);
+                                    },
+                                    child: Text(
+                                      formattedDate,
+                                      style: TextStyle(color: white, fontSize: 17),
+                                    ),
                                   ),
+                                ],
+                              ),
+                              SizedBox(width: 30), // Adjust the spacing between expiration date and buttons
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5.0),
+                                child: Row(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: _clearFields,
+                                      child: Text(
+                                        'Clear',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                                        foregroundColor: white,
+                                        backgroundColor: Colors.red.withOpacity(0.7),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10), // Adjust the vertical spacing between buttons
+                                    ElevatedButton(
+                                      onPressed: _addProduct,
+                                      child: Text(
+                                        'Save',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                                        foregroundColor: white,
+                                        backgroundColor: Colors.green.withOpacity(0.7),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(width: 20),
-                              ElevatedButton(
-                                onPressed: _addProduct,
-                                child: Text(
-                                  'Save',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                                  foregroundColor: white,
-                                  backgroundColor: Colors.green.withOpacity(0.7), // Choose a color for clear button
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                              ),
-                              // Add space between buttons
                             ],
                           ),
+
+
+
+
+
+
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
+
+
+
                     // Right Column
                   ],
                 ),
@@ -412,6 +465,8 @@ class _AddProductDataState extends State<AddProductData> {
     _descriptionController.clear();
     _measurementController.clear();
     _priceController.clear();
+    _quantityController.clear();
+    _quantityController.clear();
     setState(() {
       _selectedCategory = null;
       _selectedType = null;
@@ -420,9 +475,24 @@ class _AddProductDataState extends State<AddProductData> {
     });
   }
 
+
+
   void _addProduct() {
     if (_formKey.currentState!.validate()) {
-      // If form is valid, create a Product object with entered data
+      // Parse quantity as integer
+      int? quantity = int.tryParse(_quantityController.text);
+      if (quantity == null) {
+        // Show SnackBar for invalid quantity
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid quantity. Please enter a valid number.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return; // Exit function
+      }
+
+      // If form is valid, create a Product object with entered data including quantity
       Product product = Product(
         name: _nameController.text,
         sku: _skuController.text,
@@ -430,7 +500,8 @@ class _AddProductDataState extends State<AddProductData> {
         type: _selectedType!,
         measurement: _measurementController.text,
         description: _descriptionController.text,
-        productPrice: double.tryParse(_priceController.text) ?? 0.0, // Parsing the price as double
+        productPrice: double.tryParse(_priceController.text) ?? 0.0,
+        quantity: int.parse(_quantityController.text),
         imageUrl: _image?.path,
         date: _selectedDate,
       );
@@ -469,6 +540,8 @@ class _AddProductDataState extends State<AddProductData> {
       );
     }
   }
+
+
 
 
 
