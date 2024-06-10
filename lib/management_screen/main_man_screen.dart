@@ -5,7 +5,6 @@ import 'package:pharmanode_pos/management_screen/sub_screens/product.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/stock.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
-
 import '../login/welcomeMessage.dart';
 import '../login/main_login.dart';
 
