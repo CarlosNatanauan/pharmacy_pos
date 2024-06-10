@@ -6,7 +6,7 @@ import 'package:pharmanode_pos/management_screen/sub_screens/stock.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-import '../login/globals.dart';
+import '../login/welcomeMessage.dart';
 import '../login/main_login.dart';
 
 const primaryColor = Color(0xFF685BFF);
@@ -32,8 +32,8 @@ class MainManagementScreen extends StatelessWidget {
   final Map<String, Widget> _screens = {
     'Dashboard': Dashboard(),
     'Product': Product(),
-    'Operations': Operations(),
     'Stock': Stock(),
+    'Operations': Operations(),
     'Users': Users(),
   };
 
@@ -174,7 +174,7 @@ class ExampleSidebarX extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 8),
                 child: Text(
-                  'Nucleio Pharmacy',
+                  'Medix PharmaNode',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -191,12 +191,12 @@ class ExampleSidebarX extends StatelessWidget {
           label: 'Product',
         ),
         const SidebarXItem(
-          icon: Icons.business,
-          label: 'Operations',
+          icon: Icons.shopping_cart,
+          label: 'Stock',
         ),
         const SidebarXItem(
-          icon: Icons.people,
-          label: 'Stock',
+          icon: Icons.business,
+          label: 'Operations',
         ),
         if (isAdmin)
           const SidebarXItem(
@@ -328,9 +328,9 @@ String _getTitleByIndex(int index) {
     case 1:
       return 'Product';
     case 2:
-      return 'Operations';
-    case 3:
       return 'Stock';
+    case 3:
+      return 'Operations';
     case 4:
       return 'Users';
     default:

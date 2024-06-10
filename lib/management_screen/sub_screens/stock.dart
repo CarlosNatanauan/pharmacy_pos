@@ -20,7 +20,7 @@ class Stock extends StatefulWidget {
 
 class _StockState extends State<Stock> {
   int _selectedIndex = 0;
-  final List<String> _tabTitles = ['Stock In', 'Stock In History' , 'Stock Adjustment', 'Stock Adjustment History'];
+  final List<String> _tabTitles = ['Stock In', 'Stock Adjustment'];
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,6 @@ class _StockState extends State<Stock> {
                     children: [
                       _buildTabButton(0),
                       _buildTabButton(1),
-                      _buildTabButton(2),
-                      _buildTabButton(3),
                     ],
                     onPressed: (int index) {
                       setState(() {
@@ -94,11 +92,9 @@ class _StockState extends State<Stock> {
       case 0:
         return StockIn();
       case 1:
-        return StockInHistory();
-      case 2:
         return StockAdjustment();
-      case 3:
-        return StockAdjustmentHistory();
+
+
       default:
         return Container();
     }

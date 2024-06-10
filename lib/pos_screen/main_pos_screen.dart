@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../login/globals.dart';
+import '../login/welcomeMessage.dart';
 
 class MainPosScreen extends StatelessWidget {
   const MainPosScreen({Key? key}) : super(key: key);

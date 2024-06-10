@@ -14,7 +14,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => CategoryProvider()),
+        ChangeNotifierProvider(create: (context) => ProductCategoryProvider()),
         ChangeNotifierProvider(create: (context) => ProductTypeProvider()),// Add CategoryProvider here
         ChangeNotifierProvider(create: (context) => ProductProvider()),
         // Add more providers if needed

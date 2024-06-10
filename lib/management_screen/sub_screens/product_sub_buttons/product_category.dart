@@ -29,7 +29,7 @@ class _ProductCategoryState extends State<ProductCategory> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
+    final categoryProvider = Provider.of<ProductCategoryProvider>(context);
 
 
 

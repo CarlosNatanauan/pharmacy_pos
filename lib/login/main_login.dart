@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'globals.dart';
+import 'welcomeMessage.dart';
 import '../management_screen/main_man_screen.dart';
 import '../pos_screen/main_pos_screen.dart';
 
@@ -34,7 +34,7 @@ class MainLoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    'Nucleio PharmaNode',
+                    'Medix PharmaNode',
                     style: TextStyle(fontSize: 40, color: Color(0xFFD2CEFF), fontWeight: FontWeight.bold),
                   ),
                 ],
