@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/dashboard.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/operations.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/product.dart';
-import 'package:pharmanode_pos/management_screen/sub_screens/entities.dart';
+import 'package:pharmanode_pos/management_screen/sub_screens/stock.dart';
 import 'package:pharmanode_pos/management_screen/sub_screens/users.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-import '../login/globals.dart';
+import '../login/welcomeMessage.dart';
 import '../login/main_login.dart';
 
 const primaryColor = Color(0xFF685BFF);
@@ -32,8 +32,8 @@ class MainManagementScreen extends StatelessWidget {
   final Map<String, Widget> _screens = {
     'Dashboard': Dashboard(),
     'Product': Product(),
+    'Stock': Stock(),
     'Operations': Operations(),
-    'Entities': Entities(),
     'Users': Users(),
   };
 
@@ -174,7 +174,7 @@ class ExampleSidebarX extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 8),
                 child: Text(
-                  'Nucleio Pharmacy',
+                  'Medix PharmaNode',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -191,12 +191,12 @@ class ExampleSidebarX extends StatelessWidget {
           label: 'Product',
         ),
         const SidebarXItem(
-          icon: Icons.business,
-          label: 'Operations',
+          icon: Icons.shopping_cart,
+          label: 'Stock',
         ),
         const SidebarXItem(
-          icon: Icons.people,
-          label: 'Entities',
+          icon: Icons.business,
+          label: 'Operations',
         ),
         if (isAdmin)
           const SidebarXItem(
@@ -328,9 +328,9 @@ String _getTitleByIndex(int index) {
     case 1:
       return 'Product';
     case 2:
-      return 'Operations';
+      return 'Stock';
     case 3:
-      return 'Entities';
+      return 'Operations';
     case 4:
       return 'Users';
     default:

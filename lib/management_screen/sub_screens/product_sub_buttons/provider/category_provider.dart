@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../model/category_model.dart';
 
-class CategoryProvider extends ChangeNotifier {
+class ProductCategoryProvider extends ChangeNotifier {
   List<Category> _categories = [];
 
   List<Category> get categories => _categories;

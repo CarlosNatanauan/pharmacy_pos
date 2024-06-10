@@ -25,7 +25,7 @@ class Product {
     required this.measurement,
     required this.description,
     required this.productPrice,
-    required this.quantity, // Include quantity in constructor
+    required this.quantity,
     required this.date,
     this.imageUrl,
   }) : id = id ?? (_idCounter++).toString();

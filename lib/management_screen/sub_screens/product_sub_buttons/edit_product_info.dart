@@ -292,7 +292,7 @@ class _EditProductDataState extends State<EditProductData> {
                           SizedBox(height: 20),
 
 
-                          Consumer<CategoryProvider>(
+                          Consumer<ProductCategoryProvider>(
                             builder: (context, categoryProvider, _) => DropdownButtonFormField<String>(
                               decoration: InputDecoration(
                                 labelText: 'Product Category',
