@@ -46,8 +46,6 @@ This project is currently under active development. New features and improvement
 
 Contributions are welcome! If you have suggestions or would like to report issues, please create a new issue or submit a pull request.
 
-## License
-
 ---
 
 Feel free to reach out for any questions or feedback. Thank you for checking out the Pharmacy POS System!
